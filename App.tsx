@@ -7,10 +7,8 @@ export default function App() {
         <>
             <StatusBar style="auto" />
             <NavigationContainer>
-            
                 <AppNavigationStack />
             </NavigationContainer>
         </>
     )
 }
-
