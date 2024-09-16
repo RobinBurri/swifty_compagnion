@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import FilterLogins from '../components/searchUsers/FilterLogins'
+import UserList from '../components/searchUsers/UserList'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
-import UserList from '../components/UserList'
 import BasicUser from '../models/BasicUser'
 
 export default function SearchScreen() {
@@ -45,9 +47,10 @@ export default function SearchScreen() {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <FilterLogins filterLogins={() => {}} />
             <UserList users={user} />
-        </View>
+        </SafeAreaView>
     )
 }
 

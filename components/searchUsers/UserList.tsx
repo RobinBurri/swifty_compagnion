@@ -1,5 +1,6 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
-import BasicUser from '../models/BasicUser'
+import { FlatList, StyleSheet } from 'react-native'
+import BasicUser from '../../models/BasicUser'
+import UserListItem from './UserListItem'
 
 interface UserListProps {
     users: BasicUser[]
@@ -8,13 +9,7 @@ interface UserListProps {
 export default function UserList({ users }: UserListProps) {
     const renderUser = ({ item: user }: { item: BasicUser }) => {
         return (
-            <View>
-                <Image
-                    source={{ uri: user.getPicture() }}
-                    style={styles.image}
-                />
-                <Text>{user.getLogin()}</Text>
-            </View>
+            <UserListItem item={user} />
         )
     }
     return (
@@ -22,13 +17,19 @@ export default function UserList({ users }: UserListProps) {
             data={users}
             renderItem={renderUser}
             keyExtractor={(user) => user.getId().toString()}
+            style={styles.item}
         />
     )
 }
 
 const styles = StyleSheet.create({
-    image: {
-        width: 100,
-        height: 100,
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
+    item: {
+        width: '80%',
+    }
 })
+

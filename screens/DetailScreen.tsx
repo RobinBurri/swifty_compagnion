@@ -1,13 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 
 export default function DetailScreen() {
 
 
     return (
-        <View style={styles.container}>
+
+        <SafeAreaView style={styles.container}>
             <Text>Detail Screen</Text>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -17,5 +18,6 @@ const styles = StyleSheet.create({
         backgroundColor: GlobalStyles.colors.lightGreen,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 20,
     },
 })

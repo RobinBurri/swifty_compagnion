@@ -9,4 +9,7 @@ export const GlobalStyles = {
       light: '#f6fff8',
       white: '#ffffff',
     },
+    card: {
+      borderRadius: 8,
+    }
   };
