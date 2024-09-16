@@ -1,19 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
-import { GlobalStyles } from "../constants/styles";
+import { StyleSheet, Text, View } from 'react-native'
 
 export default function SearchScreen() {
     return (
-        <View>
-        <Text>Search Screen</Text>
+        <View style={styles.container}>
+            <Text>Search Screen</Text>
         </View>
-    );
-    }
+    )
+}
 
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: GlobalStyles.colors.lightGreen,
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-    });
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+})
