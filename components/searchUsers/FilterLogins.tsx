@@ -10,27 +10,38 @@ interface FilterLoginsProps {
 export default function FilterLogins({ filterLogins }: FilterLoginsProps) {
     const [login, setLogin] = useState('')
 
+    const onChangeLoginHandler = (text: string) => {
+        setLogin(text)
+    }
+
+    const filterLoginsHandler = () => {
+        if (login.length < 3) {
+            return
+        }
+        filterLogins()
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Filter by login:</Text>
+            <Text style={styles.text}>Filter by login</Text>
             <View style={styles.inputbtn}>
                 <TextInput
                     style={styles.input}
                     value={login}
-                    onChangeText={setLogin}
-                    inputMode='text'
+                    onChangeText={onChangeLoginHandler}
+                    inputMode="text"
                     maxLength={15}
                     spellCheck={false}
                     autoCorrect={false}
-                    autoCapitalize='none'
+                    autoCapitalize="none"
                     cursorColor={GlobalStyles.colors.beige}
-                    placeholder='Enter at least 3 characters'
+                    placeholder="Enter at least 3 characters"
                     placeholderTextColor={GlobalStyles.colors.beige}
                 />
 
                 <CustomBtn
                     title="Filter"
-                    onPress={filterLogins}
+                    onPress={filterLoginsHandler}
                     mode="raised"
                     style={styles.button}
                 />
@@ -47,6 +58,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         marginBottom: 8,
+        fontWeight: 'bold',
         color: GlobalStyles.colors.darkBrown,
     },
     input: {
@@ -57,7 +69,6 @@ const styles = StyleSheet.create({
         width: '65%',
         borderRadius: GlobalStyles.card.borderRadius,
         color: GlobalStyles.colors.beige,
-        
     },
     inputbtn: {
         flexDirection: 'row',
