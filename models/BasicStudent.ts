@@ -1,4 +1,4 @@
-export default class BasicUser {
+export default class BasicStudent {
     constructor(
         private id: number,
         private picture: string,

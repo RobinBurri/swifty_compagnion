@@ -6,14 +6,14 @@ import React, {
     useState,
 } from 'react'
 import { Alert } from 'react-native'
-import BasicUser from '../models/BasicUser'
+import BasicStudent from '../models/BasicStudent'
 import { useStudentList } from '../utils/getStudent'
 import { AuthContext } from './auth-context'
 
 type StudentContextType = {
-    students: BasicUser[]
-    setStudents: (student: BasicUser) => void
-    getStudents: () => BasicUser[]
+    students: BasicStudent[]
+    setStudents: (student: BasicStudent) => void
+    getStudents: () => BasicStudent[]
     isLoading: boolean
 }
 
@@ -33,7 +33,7 @@ export const StudentsContextProvider = ({
 }: StudentsContextProviderProps) => {
     const authCtx = useContext(AuthContext)
     const { getStudentList } = useStudentList()
-    const [students, setStudents] = useState<BasicUser[]>([])
+    const [students, setStudents] = useState<BasicStudent[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -60,7 +60,7 @@ export const StudentsContextProvider = ({
 
     const value = {
         students: students,
-        setStudents: (student: BasicUser) =>
+        setStudents: (student: BasicStudent) =>
           setStudents([...students, student]),
         getStudents: () => students,
         isLoading: isLoading,

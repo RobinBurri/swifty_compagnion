@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useCallback, useContext } from 'react'
 import { API_URL } from '../constants/apiUrl'
-import BasicUser from '../models/BasicUser'
+import BasicStudent from '../models/BasicStudent'
 import { AuthContext } from '../store/auth-context'
 
 const ALL_USERS = '/v2/users'
@@ -23,7 +23,7 @@ export const useStudentList = () => {
             })
 
             const students = response.data.map((student: any) => {
-                return new BasicUser(
+                return new BasicStudent(
                     student.id,
                     student.image.link,
                     student.login

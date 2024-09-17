@@ -20,13 +20,13 @@ export default function DetailScreen({ route }: DetailScreenProps) {
 
     useEffect(() => {
         async function loadStudentDate() {
-            const studentData = await getStudentById(studentLogin)
-            setStudentData(studentData)
+            const student = await getStudentById(studentLogin)
+            setStudentData(student)
         }
 
         if (studentLogin) {
             loadStudentDate()
-            console.log("studentData\n", studentData)
+
         }
     }, [])
 

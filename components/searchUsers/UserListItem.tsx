@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
-import BasicUser from '../../models/BasicUser'
+import BasicStudent from '../../models/BasicStudent'
 
 type RootStackParamList = {
     Detail: { studentLogin: string}
@@ -9,7 +9,7 @@ type RootStackParamList = {
 
 type NavigationProps = NavigationProp<RootStackParamList>
 
-export default function UserListItem({ item: user }: { item: BasicUser }) {
+export default function UserListItem({ item: user }: { item: BasicStudent }) {
     const navigation = useNavigation<NavigationProps>()
     const onSelectStudent = () => {
         navigation.navigate('Detail', { studentLogin : user.getLogin() })

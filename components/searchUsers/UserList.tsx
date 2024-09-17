@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet } from 'react-native'
-import BasicUser from '../../models/BasicUser'
+import BasicStudent from '../../models/BasicStudent'
 import UserListItem from './UserListItem'
 
 interface UserListProps {
-    users: BasicUser[]
+    users: BasicStudent[]
 }
 
 export default function UserList({ users }: UserListProps) {
-    const renderUser = ({ item: user }: { item: BasicUser }) => {
+    const renderUser = ({ item: user }: { item: BasicStudent }) => {
         return (
             <UserListItem item={user} />
         )
