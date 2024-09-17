@@ -1,11 +1,10 @@
 import axios from 'axios'
+import Constants from 'expo-constants'
 import { Alert } from 'react-native'
-import Config from 'react-native-config'
 import { API_URL } from '../constants/apiUrl'
 
-const UID = Config.UID
-const SECRET = Config.SECRET
-
+const UID = Constants?.expoConfig?.extra?.UID
+const SECRET = Constants?.expoConfig?.extra?.SECRET
 
 const getAccessToken = async (): Promise<string | undefined> => {
     if (!UID || !SECRET) {
@@ -30,7 +29,6 @@ const getAccessToken = async (): Promise<string | undefined> => {
             }
         )
         const { access_token } = response.data
-        console.log('Access Token:', access_token)
         return access_token
     } catch (error) {
         Alert.alert('Failed to get access token. Check your credentials.')

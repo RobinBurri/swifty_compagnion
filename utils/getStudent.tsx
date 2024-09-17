@@ -34,7 +34,7 @@ export const getStudentList = async () => {
 }
 
 
-export const getStudentId = async (studentId: number) => {
+export const getStudentById = async (studentId: number) => {
     const authCtx = useContext(AuthContext)
     if (!authCtx) {
         return

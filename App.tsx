@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import AppNavigationStack from './AppNavigationStack'
 import { AuthContextProvider } from './store/auth-context'
+import { StudentsContextProvider } from './store/student-context'
 
 export default function App() {
     return (
@@ -9,7 +10,9 @@ export default function App() {
             <StatusBar style="auto" />
             <NavigationContainer>
                 <AuthContextProvider>
-                    <AppNavigationStack />
+                    <StudentsContextProvider>
+                        <AppNavigationStack />
+                    </StudentsContextProvider>
                 </AuthContextProvider>
             </NavigationContainer>
         </>
