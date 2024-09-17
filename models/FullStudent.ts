@@ -8,12 +8,14 @@ export default class FullStudent {
     constructor(
         private city: string,
         private country: string,
+        private login: string,
         private firstName: string,
         private lastName: string,
         private email: string,
         private image: string,
         private level: number,
-        private grade: string,
+        private grade: number,
+        private numberOfProjects: number,
         private projects: project[],
         private correctionPoints: number
     ) {}
@@ -33,6 +35,10 @@ export default class FullStudent {
         return this.lastName
     }
 
+    getLogin(): string {
+        return this.login
+    }
+
     getEmail(): string {
         return this.email
     }
@@ -45,8 +51,12 @@ export default class FullStudent {
         return this.level
     }
 
-    getGrade(): string {
+    getGrade(): number {
         return this.grade
+    }
+
+    getNumberOfProjects(): number {
+        return this.numberOfProjects
     }
 
     getProjects(): project[] {

@@ -82,13 +82,15 @@ const createStudent = (studentData: any): FullStudent => {
     console.log("-------------------")
     console.log(studentData.campus[0].city)
     console.log(studentData.campus[0].country)
+    console.log(studentData.login)
     console.log(studentData.first_name)
     console.log(studentData.last_name)
     console.log(studentData.email)
     console.log(studentData.image.link)
-    console.log(studentData.level)
-    console.log(studentData.grade)
-    console.log(studentData.projects)
+    console.log(studentData.cursus_users[0].level)
+    console.log(studentData.cursus_users[0].grade)
+    console.log(studentData.projects_users.length)
+    console.log(studentData.projects_users)
     console.log(studentData.correction_point)
     console.log("-------------------")
 
@@ -96,13 +98,15 @@ const createStudent = (studentData: any): FullStudent => {
     const newStudent = new FullStudent(
         studentData.campus[0].city,
         studentData.campus[0].country,
+        studentData.login,
         studentData.first_name,
         studentData.last_name,
         studentData.email,
         studentData.image.link,
-        studentData.level,
-        studentData.grade,
-        studentData.projects,
+        studentData.cursus_users[0].level,
+        studentData.cursus_users[0].grade,
+        studentData.projects_users.length,
+        studentData.projects_users,
         studentData.correction_point
     )
     return newStudent
