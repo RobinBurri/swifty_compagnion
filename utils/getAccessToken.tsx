@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { Alert } from 'react-native'
 import Config from 'react-native-config'
+import { API_URL } from '../constants/apiUrl'
 
 const UID = Config.UID
 const SECRET = Config.SECRET
-const API_URL = 'https://api.intra.42.fr'
+
 
 const getAccessToken = async (): Promise<string | undefined> => {
     if (!UID || !SECRET) {

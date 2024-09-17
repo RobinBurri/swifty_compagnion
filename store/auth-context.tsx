@@ -11,7 +11,7 @@ type AuthContextProviderProps = {
     children: ReactNode
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const [authToken, setAuthToken] = useState<string | undefined>(undefined)

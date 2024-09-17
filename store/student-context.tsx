@@ -1,35 +1,47 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
-import getAccessToken from '../utils/getAccessToken'
+import BasicUser from '../models/BasicUser'
+import { getStudentList } from '../utils/getStudents'
 
-type AuthContextType = {
-    token: string | undefined
-    setToken: (token: string) => void
-    getToken: () => string | undefined
+type StudentContextType = {
+    students: BasicUser[]
+    setStudents: (student: BasicUser) => void
+    getStudents: () => BasicUser[]
 }
 
-type AuthContextProviderProps = {
+type StudentsContextProviderProps = {
     children: ReactNode
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const StudentsContext = createContext<StudentContextType>({
+    students: [],
+    setStudents: () => {},
+    getStudents: () => [],
+})
 
-export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-    const [authToken, setAuthToken] = useState<string | undefined>(undefined)
+export const StudentsContextProvider = ({
+    children,
+}: StudentsContextProviderProps) => {
+    const [students, setStudents] = useState<BasicUser[]>([])
     useEffect(() => {
-        async function loadToken() {
-            const token = await getAccessToken()
-            if (token) {
-                setAuthToken(token)
+        async function loadStudents() {
+            const studentList = await getStudentList()
+            if (studentList) {
+                setStudents(studentList)
             }
         }
-        loadToken()
+        loadStudents()
     }, [])
 
     const value = {
-        token: authToken,
-        setToken: (token: string) => setAuthToken(token),
-        getToken: () => authToken,
+        students: students,
+        setStudents: (student: BasicUser) =>
+            setStudents([...students, student]),
+        getStudents: () => students,
     }
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    return (
+        <StudentsContext.Provider value={value}>
+            {children}
+        </StudentsContext.Provider>
+    )
 }
