@@ -1,9 +1,11 @@
 import { RouteProp } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
+import PictureAndName from '../components/detailUser/PictureAndName'
+import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { GlobalStyles } from '../constants/styles'
+import FullStudent from '../models/FullStudent'
 import { useStudentById } from '../utils/getStudent'
-
 
 type RootStackParamList = {
     Detail: { studentLogin: string }
@@ -15,25 +17,34 @@ interface DetailScreenProps {
 
 export default function DetailScreen({ route }: DetailScreenProps) {
     const studentLogin = route.params?.studentLogin
-    const [studentData, setStudentData] = useState<any>(null)
+    const [studentData, setStudentData] = useState<FullStudent | null>(null)
     const { getStudentById } = useStudentById()
 
     useEffect(() => {
         async function loadStudentDate() {
             const student = await getStudentById(studentLogin)
-            setStudentData(student)
+            if (student) {
+                setStudentData(student)
+            }
         }
-
         if (studentLogin) {
             loadStudentDate()
-
         }
     }, [])
 
+    if (!studentData) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <LoadingOverlay />
+            </SafeAreaView>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Detail Screen</Text>
-            <Text>student login : {studentLogin}</Text>
+            <View style={styles.card}>
+                <PictureAndName studentData={studentData} />
+            </View>
         </SafeAreaView>
     )
 }
@@ -42,8 +53,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: GlobalStyles.colors.lightGreen,
-        alignItems: 'center',
-        justifyContent: 'center',
         marginTop: 20,
+    },
+    card: {
+        backgroundColor: GlobalStyles.colors.beige,
+        borderRadius: 10,
+        padding: 20,
+        margin: 20,
+        alignItems: 'center',
     },
 })
