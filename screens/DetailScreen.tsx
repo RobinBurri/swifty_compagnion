@@ -2,10 +2,11 @@ import { RouteProp } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, Text } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
-import { getStudentById } from '../utils/getStudent'
+import { useStudentById } from '../utils/getStudent'
+
 
 type RootStackParamList = {
-    Detail: { studentId: number }
+    Detail: { studentLogin: string }
 }
 
 interface DetailScreenProps {
@@ -13,16 +14,17 @@ interface DetailScreenProps {
 }
 
 export default function DetailScreen({ route }: DetailScreenProps) {
-    const studentId = route.params?.studentId
+    const studentLogin = route.params?.studentLogin
     const [studentData, setStudentData] = useState<any>(null)
+    const { getStudentById } = useStudentById()
 
     useEffect(() => {
         async function loadStudentDate() {
-            const studentData = await getStudentById(studentId)
+            const studentData = await getStudentById(studentLogin)
             setStudentData(studentData)
         }
 
-        if (studentId) {
+        if (studentLogin) {
             loadStudentDate()
             console.log("studentData\n", studentData)
         }
@@ -31,7 +33,7 @@ export default function DetailScreen({ route }: DetailScreenProps) {
     return (
         <SafeAreaView style={styles.container}>
             <Text>Detail Screen</Text>
-            <Text>student id : {studentId}</Text>
+            <Text>student login : {studentLogin}</Text>
         </SafeAreaView>
     )
 }

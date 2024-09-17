@@ -4,7 +4,7 @@ import { GlobalStyles } from '../../constants/styles'
 import BasicUser from '../../models/BasicUser'
 
 type RootStackParamList = {
-    Detail: { studentId: number}
+    Detail: { studentLogin: string}
 }
 
 type NavigationProps = NavigationProp<RootStackParamList>
@@ -12,7 +12,7 @@ type NavigationProps = NavigationProp<RootStackParamList>
 export default function UserListItem({ item: user }: { item: BasicUser }) {
     const navigation = useNavigation<NavigationProps>()
     const onSelectStudent = () => {
-        navigation.navigate('Detail', { studentId : user.getId() })
+        navigation.navigate('Detail', { studentLogin : user.getLogin() })
     }
     return (
         <Pressable onPress={onSelectStudent}>
