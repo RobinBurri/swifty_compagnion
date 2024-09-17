@@ -5,6 +5,7 @@ type AuthContextType = {
     token: string | undefined
     setToken: (token: string) => void
     getToken: () => string | undefined
+    isLoading: boolean
 }
 
 type AuthContextProviderProps = {
