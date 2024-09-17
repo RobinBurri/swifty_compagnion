@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import BasicUser from '../models/BasicUser'
-import { getStudentList } from '../utils/getStudents'
+import { getStudentList } from '../utils/getStudentList'
 
 type StudentContextType = {
     students: BasicUser[]
