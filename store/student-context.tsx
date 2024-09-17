@@ -1,6 +1,7 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react'
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import BasicUser from '../models/BasicUser'
 import { getStudentList } from '../utils/getStudent'
+import { AuthContext } from './auth-context'
 
 type StudentContextType = {
     students: BasicUser[]
@@ -12,7 +13,7 @@ type StudentsContextProviderProps = {
     children: ReactNode
 }
 
-const StudentsContext = createContext<StudentContextType>({
+export const StudentsContext = createContext<StudentContextType>({
     students: [],
     setStudents: () => {},
     getStudents: () => [],
@@ -21,16 +22,31 @@ const StudentsContext = createContext<StudentContextType>({
 export const StudentsContextProvider = ({
     children,
 }: StudentsContextProviderProps) => {
-    const [students, setStudents] = useState<BasicUser[]>([])
+    const authCtx = useContext(AuthContext)
+    const [students, setStudents] = useState<BasicUser[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+  
     useEffect(() => {
-        async function loadStudents() {
-            const studentList = await getStudentList()
+      async function loadStudents() {
+        if (authCtx?.token) {
+          try {
+            setIsLoading(true);
+            const studentList = await getStudentList();
             if (studentList) {
-                setStudents(studentList)
+              setStudents(studentList);
             }
+          } catch (error) {
+            console.error('Failed to load student list:', error);
+          } finally {
+            setIsLoading(false);
+          }
         }
-        loadStudents()
-    }, [])
+      }
+  
+      if (!authCtx?.isLoading && authCtx?.token) {
+        loadStudents();
+      }
+    }, [authCtx?.isLoading, authCtx?.token]);
 
     const value = {
         students: students,

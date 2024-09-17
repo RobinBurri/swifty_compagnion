@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { GlobalStyles } from './constants/styles'
 import DetailScreen from './screens/DetailScreen'
 import SearchScreen from './screens/SearchScreen'
+import { StudentsContextProvider } from './store/student-context'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,13 +22,15 @@ export default function AppNavigationStack() {
                 },
             }}
         >
-            <Stack.Screen
-                name="Search"
-                component={SearchScreen}
-                options={{
-                    title: 'Search Students',
-                }}
-            />
+            <StudentsContextProvider>
+                <Stack.Screen
+                    name="Search"
+                    component={SearchScreen}
+                    options={{
+                        title: 'Search Students',
+                    }}
+                />
+            </StudentsContextProvider>
             <Stack.Screen
                 name="Detail"
                 component={DetailScreen}
