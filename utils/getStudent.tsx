@@ -2,12 +2,11 @@ import axios from 'axios'
 import { useCallback, useContext } from 'react'
 import { API_URL } from '../constants/apiUrl'
 import BasicStudent from '../models/BasicStudent'
-import FullStudent from '../models/FullStudent'
+import Student from '../models/Student'
 import { AuthContext } from '../store/auth-context'
 
-const ALL_USERS = '/v2/campus/'
-const ALL_LAUSANNE_USERS = '/v2/campus/47/users'
-const RATE_LIMIT_DELAY = 550
+const ALL_LAUSANNE_STUDENTS = '/v2/campus/47/users'
+const ALL_STUDENTS = '/v2/users/'
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -28,7 +27,7 @@ export const useStudentList = () => {
 
             while (hasMoreStudents) {
                 const response = await axios.get(
-                    `${API_URL}${ALL_LAUSANNE_USERS}`,
+                    `${API_URL}${ALL_LAUSANNE_STUDENTS}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -52,15 +51,17 @@ export const useStudentList = () => {
                     )
                 })
 
-                if (studentsOnPage.length === 0) {
-                    hasMoreStudents = false
-                } else {
-                    allStudents = [...allStudents, ...studentsOnPage]
-                    currentPage++
-                    await delay(RATE_LIMIT_DELAY)
-                }
+                // if (studentsOnPage.length === 0) {
+                //     hasMoreStudents = false
+                // } else {
+                //     allStudents = [...allStudents, ...studentsOnPage]
+                //     currentPage++
+                // }
+                allStudents = [...allStudents, ...studentsOnPage]
+                hasMoreStudents = false
 
-                console.log('Response headers: ', response.headers)
+
+
                 console.log('Current page: ', currentPage)
                 console.log('Students on this page: ', studentsOnPage.length)
             }
@@ -78,9 +79,8 @@ export const useStudentList = () => {
 
 export const useStudentById = () => {
     const authCtx = useContext(AuthContext)
-
     const getStudentById = useCallback(
-        async (studentLogin: string) => {
+        async (studentId: number) => {
             if (!authCtx) {
                 console.error('Auth context is not available')
                 return
@@ -88,8 +88,9 @@ export const useStudentById = () => {
 
             try {
                 const token = await authCtx.getToken()
+                // const queryParameter = "?range[login]=" + studentLogin + "," + studentLogin + 'z'
                 const response = await axios.get(
-                    `${API_URL}${ALL_USERS}/${studentLogin}`,
+                    `${API_URL}${ALL_STUDENTS}${studentId.toString()}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -97,8 +98,9 @@ export const useStudentById = () => {
                     }
                 )
 
+
+
                 const student = createStudent(response.data)
-                console.log(student)
                 return student
             } catch (error) {
                 console.error('Failed to get student:', error)
@@ -111,37 +113,29 @@ export const useStudentById = () => {
     return { getStudentById }
 }
 
-const createStudent = (studentData: any): FullStudent => {
+const createStudent = (studentData: any): Student => {
     console.log(studentData)
 
     console.log('-------------------')
-    console.log(studentData.campus[0].city)
-    console.log(studentData.campus[0].country)
     console.log(studentData.login)
-    console.log(studentData.first_name)
-    console.log(studentData.last_name)
-    console.log(studentData.email)
     console.log(studentData.image.link)
     console.log(studentData.cursus_users[0].level)
     console.log(studentData.cursus_users[0].grade)
     console.log(studentData.projects_users.length)
     console.log(studentData.projects_users)
     console.log(studentData.correction_point)
+    console.log(studentData.wallet)
     console.log('-------------------')
 
-    const newStudent = new FullStudent(
-        studentData.campus[0].city,
-        studentData.campus[0].country,
+    const newStudent = new Student(
         studentData.login,
-        studentData.first_name,
-        studentData.last_name,
-        studentData.email,
         studentData.image.link,
         studentData.cursus_users[0].level,
         studentData.cursus_users[0].grade,
         studentData.projects_users.length,
         studentData.projects_users,
-        studentData.correction_point
+        studentData.correction_point,
+        studentData.wallet
     )
     return newStudent
 }

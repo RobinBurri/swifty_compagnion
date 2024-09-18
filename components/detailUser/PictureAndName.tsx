@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
-import FullStudent from '../../models/FullStudent'
+import FullStudent from '../../models/Student'
 
 export default function PictureAndName({
     studentData,
@@ -14,9 +14,6 @@ export default function PictureAndName({
                 style={styles.picture}
             />
             <View style={styles.textbox}>
-                <Text style={[styles.name, styles.textColor]}>
-                    {studentData.getFirstName()} {studentData.getLastName()}
-                </Text>
                 <Text style={[styles.name, styles.textColor]}>
                     {studentData.getLogin()}
                 </Text>
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     textColor: {
-        color: GlobalStyles.colors.red,
+        color: GlobalStyles.colors.darkGreen,
         textAlign: 'center',
         margin: 8,
     },
