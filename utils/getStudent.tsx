@@ -5,67 +5,76 @@ import BasicStudent from '../models/BasicStudent'
 import FullStudent from '../models/FullStudent'
 import { AuthContext } from '../store/auth-context'
 
-const ALL_USERS = '/v2/users'
-const RATE_LIMIT_DELAY = 550;
+const ALL_USERS = '/v2/campus/'
+const ALL_LAUSANNE_USERS = '/v2/campus/47/users'
+const RATE_LIMIT_DELAY = 550
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const useStudentList = () => {
-  const authCtx = useContext(AuthContext);
+    const authCtx = useContext(AuthContext)
 
-  const getAllStudents = useCallback(async () => {
-    if (!authCtx) {
-      console.error('Auth context is not available');
-      return;
-    }
-
-    try {
-      const token = await authCtx.getToken();
-      let allStudents: BasicStudent[] = [];
-      let currentPage = 1;
-      let hasMorePages = true;
-
-      while (hasMorePages) {
-        const response = await axios.get(`${API_URL}${ALL_USERS}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            page: currentPage,
-            per_page: 100,
-          },
-        });
-
-        const studentsOnPage = response.data.map((student: any) => {
-          return new BasicStudent(
-            student.id,
-            student.image.link,
-            student.login
-          );
-        });
-
-        allStudents = [...allStudents, ...studentsOnPage];
-
-        // Check if there are more pages
-        const totalPages = parseInt(response.headers['x-total-pages'] || '1');
-        hasMorePages = currentPage < totalPages;
-        currentPage++;
-
-        // Delay before the next request to respect rate limit
-        if (hasMorePages) {
-          await delay(RATE_LIMIT_DELAY);
+    const getAllStudents = useCallback(async () => {
+        if (!authCtx) {
+            console.error('Auth context is not available')
+            return
         }
-      }
 
-      return allStudents;
-    } catch (error) {
-      console.error('Failed to get students:', error);
-      return undefined;
-    }
-  }, [authCtx]);
+        try {
+            const token = await authCtx.getToken()
+            let allStudents: BasicStudent[] = []
+            let currentPage = 1
+            let hasMoreStudents = true
 
-  return { getAllStudents };
-};
+            while (hasMoreStudents) {
+                const response = await axios.get(
+                    `${API_URL}${ALL_LAUSANNE_USERS}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        params: {
+                            page: currentPage,
+                            per_page: 100,
+                        },
+                    }
+                )
+
+                const studentsOnPage = response.data.map((student: any) => {
+                    let bestImage = student.image?.versions?.small
+                    if (!bestImage) {
+                        bestImage = student.image.link
+                    }
+                    return new BasicStudent(
+                        student.id,
+                        bestImage,
+                        student.login
+                    )
+                })
+
+                if (studentsOnPage.length === 0) {
+                    hasMoreStudents = false
+                } else {
+                    allStudents = [...allStudents, ...studentsOnPage]
+                    currentPage++
+                    await delay(RATE_LIMIT_DELAY)
+                }
+
+                console.log('Response headers: ', response.headers)
+                console.log('Current page: ', currentPage)
+                console.log('Students on this page: ', studentsOnPage.length)
+            }
+
+            console.log('Total students fetched: ', allStudents.length)
+            return allStudents
+        } catch (error) {
+            console.error('Failed to get students:', error)
+            return undefined
+        }
+    }, [authCtx])
+
+    return { getAllStudents }
+}
 
 export const useStudentById = () => {
     const authCtx = useContext(AuthContext)
@@ -105,7 +114,7 @@ export const useStudentById = () => {
 const createStudent = (studentData: any): FullStudent => {
     console.log(studentData)
 
-    console.log("-------------------")
+    console.log('-------------------')
     console.log(studentData.campus[0].city)
     console.log(studentData.campus[0].country)
     console.log(studentData.login)
@@ -118,8 +127,7 @@ const createStudent = (studentData: any): FullStudent => {
     console.log(studentData.projects_users.length)
     console.log(studentData.projects_users)
     console.log(studentData.correction_point)
-    console.log("-------------------")
-
+    console.log('-------------------')
 
     const newStudent = new FullStudent(
         studentData.campus[0].city,

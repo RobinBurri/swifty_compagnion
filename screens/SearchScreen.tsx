@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FilterLogins from '../components/searchUsers/FilterLogins'
-import UserList from '../components/searchUsers/UserList'
+import StudentList from '../components/searchUsers/StudentList'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { StudentsContext } from '../store/student-context'
 
@@ -14,7 +14,7 @@ export default function SearchScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <FilterLogins filterLogins={() => {}} />
-            <UserList users={studentCtx.students} />
+            <StudentList students={studentCtx.students} />
         </SafeAreaView>
     )
     // TODO: Load more than 30 students => look at the API

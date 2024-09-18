@@ -1,20 +1,18 @@
 import { FlatList, StyleSheet } from 'react-native'
 import BasicStudent from '../../models/BasicStudent'
-import UserListItem from './UserListItem'
+import StudentItem from './StudentItem'
 
-interface UserListProps {
-    users: BasicStudent[]
+interface StudentListProps {
+    students: BasicStudent[]
 }
 
-export default function UserList({ users }: UserListProps) {
-    const renderUser = ({ item: user }: { item: BasicStudent }) => {
-        return (
-            <UserListItem item={user} />
-        )
+export default function StudentList({ students }: StudentListProps) {
+    const renderUser = ({ item }: { item: BasicStudent }) => {
+        return <StudentItem student={item} />
     }
     return (
         <FlatList
-            data={users}
+            data={students}
             renderItem={renderUser}
             keyExtractor={(user) => user.getId().toString()}
             style={styles.item}
@@ -30,6 +28,5 @@ const styles = StyleSheet.create({
     },
     item: {
         width: '80%',
-    }
+    },
 })
-

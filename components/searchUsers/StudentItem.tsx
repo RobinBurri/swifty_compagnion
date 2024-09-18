@@ -4,24 +4,28 @@ import { GlobalStyles } from '../../constants/styles'
 import BasicStudent from '../../models/BasicStudent'
 
 type RootStackParamList = {
-    Detail: { studentLogin: string}
+    Detail: { studentLogin: string }
 }
 
 type NavigationProps = NavigationProp<RootStackParamList>
 
-export default function UserListItem({ item: user }: { item: BasicStudent }) {
+export default function StudentItem({
+    student: student,
+}: {
+    student: BasicStudent
+}) {
     const navigation = useNavigation<NavigationProps>()
     const onSelectStudent = () => {
-        navigation.navigate('Detail', { studentLogin : user.getLogin() })
+        navigation.navigate('Detail', { studentLogin: student.getLogin() })
     }
     return (
         <Pressable onPress={onSelectStudent}>
             <View style={styles.container}>
                 <Image
-                    source={{ uri: user.getPicture() }}
+                    source={{ uri: student.getPicture() }}
                     style={styles.image}
                 />
-                <Text style={styles.text}>{user.getLogin()}</Text>
+                <Text style={styles.text}>{student.getLogin()}</Text>
             </View>
         </Pressable>
     )
@@ -50,7 +54,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 3, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 4,
- 
     },
     text: {
         color: GlobalStyles.colors.beige,

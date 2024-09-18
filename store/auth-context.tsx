@@ -23,6 +23,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             const token = await getAccessToken();
             if (token) {
               setAuthToken(token);
+              console.log("Token: ", token);
             }
           } catch (error) {
             console.error('Failed to load access token:', error);
