@@ -32,7 +32,7 @@ export const StudentsContextProvider = ({
     children,
 }: StudentsContextProviderProps) => {
     const authCtx = useContext(AuthContext)
-    const { getStudentList } = useStudentList()
+    const { getAllStudents } = useStudentList()
     const [students, setStudents] = useState<BasicStudent[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
@@ -41,7 +41,7 @@ export const StudentsContextProvider = ({
             if (authCtx?.token) {
                 try {
                     setIsLoading(true)
-                    const studentList = await getStudentList()
+                    const studentList = await getAllStudents()
                     if (studentList) {
                         setStudents(studentList)
                     }
@@ -56,7 +56,7 @@ export const StudentsContextProvider = ({
         if (!authCtx?.isLoading && authCtx?.token) {
             loadStudents()
         }
-    }, [authCtx?.isLoading, authCtx?.token, getStudentList])
+    }, [authCtx?.isLoading, authCtx?.token, getAllStudents])
 
     const value = {
         students: students,

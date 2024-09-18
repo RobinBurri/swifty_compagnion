@@ -6,40 +6,66 @@ import FullStudent from '../models/FullStudent'
 import { AuthContext } from '../store/auth-context'
 
 const ALL_USERS = '/v2/users'
+const RATE_LIMIT_DELAY = 550;
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const useStudentList = () => {
-    const authCtx = useContext(AuthContext)
-    const getStudentList = useCallback(async () => {
-        if (!authCtx) {
-            console.error('Auth context is not available')
-            return
+  const authCtx = useContext(AuthContext);
+
+  const getAllStudents = useCallback(async () => {
+    if (!authCtx) {
+      console.error('Auth context is not available');
+      return;
+    }
+
+    try {
+      const token = await authCtx.getToken();
+      let allStudents: BasicStudent[] = [];
+      let currentPage = 1;
+      let hasMorePages = true;
+
+      while (hasMorePages) {
+        const response = await axios.get(`${API_URL}${ALL_USERS}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            page: currentPage,
+            per_page: 100,
+          },
+        });
+
+        const studentsOnPage = response.data.map((student: any) => {
+          return new BasicStudent(
+            student.id,
+            student.image.link,
+            student.login
+          );
+        });
+
+        allStudents = [...allStudents, ...studentsOnPage];
+
+        // Check if there are more pages
+        const totalPages = parseInt(response.headers['x-total-pages'] || '1');
+        hasMorePages = currentPage < totalPages;
+        currentPage++;
+
+        // Delay before the next request to respect rate limit
+        if (hasMorePages) {
+          await delay(RATE_LIMIT_DELAY);
         }
+      }
 
-        try {
-            const token = await authCtx.getToken()
-            const response = await axios.get(`${API_URL}${ALL_USERS}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+      return allStudents;
+    } catch (error) {
+      console.error('Failed to get students:', error);
+      return undefined;
+    }
+  }, [authCtx]);
 
-            const students = response.data.map((student: any) => {
-                return new BasicStudent(
-                    student.id,
-                    student.image.link,
-                    student.login
-                )
-            })
-
-            return students
-        } catch (error) {
-            console.error('Failed to get students:', error)
-            return undefined
-        }
-    }, [authCtx])
-
-    return { getStudentList }
-}
+  return { getAllStudents };
+};
 
 export const useStudentById = () => {
     const authCtx = useContext(AuthContext)
