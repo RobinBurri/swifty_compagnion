@@ -1,9 +1,11 @@
 import { RouteProp } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
+import ButtonSelection, { btnType } from '../components/detailUser/ButtonSelection'
 import LevelAndPoints from '../components/detailUser/LevelAndPoints'
 import PictureAndName from '../components/detailUser/PictureAndName'
 import ProjectList from '../components/detailUser/ProjectList'
+import SkillList from '../components/detailUser/SkillList'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { GlobalStyles } from '../constants/styles'
 import FullStudent from '../models/Student'
@@ -19,8 +21,9 @@ interface DetailScreenProps {
 
 export default function DetailScreen({ route }: DetailScreenProps) {
     const studentId = route.params?.studentId
-    const [studentData, setStudentData] = useState<FullStudent | null>(null)
     const { getStudentById } = useStudentById()
+    const [studentData, setStudentData] = useState<FullStudent | null>(null)
+    const [infoShown, setInfoShown] = useState<btnType>(btnType.projects)
 
     useEffect(() => {
         async function loadStudentDate() {
@@ -33,6 +36,10 @@ export default function DetailScreen({ route }: DetailScreenProps) {
             loadStudentDate()
         }
     }, [])
+
+    const btnPressedHandler = (type: btnType) => {
+        type === btnType.projects ? setInfoShown(btnType.projects) : setInfoShown(btnType.skills)
+      }
 
     if (!studentData) {
         return (
@@ -47,7 +54,9 @@ export default function DetailScreen({ route }: DetailScreenProps) {
             <View style={styles.card}>
                 <PictureAndName studentData={studentData} />
                 <LevelAndPoints studentData={studentData} />
-                <ProjectList studentData={studentData} />
+                <ButtonSelection btnPressedHandler={btnPressedHandler} />
+                {infoShown === btnType.projects  && <ProjectList studentData={studentData} />}
+                {infoShown === btnType.skills  && <SkillList studentData={studentData} />}
             </View>
         </SafeAreaView>
     )

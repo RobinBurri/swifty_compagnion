@@ -4,9 +4,11 @@ import { GlobalStyles } from '../../constants/styles'
 import Student, { Project } from '../../models/Student'
 
 export default function ProjectList({ studentData }: { studentData: Student }) {
-    const projects = studentData.getProjects().filter((project) => project.cursus_ids[0] === 66)
+    const projects = studentData
+        .getProjects()
+        .filter((project) => project.cursus_ids[0] === 66)
     if (projects.length === 0) {
-        return <Text>No projects</Text>
+        return <Text>No 42 projects</Text>
     }
 
     const renderItem = ({ item }: { item: Project }) => {
@@ -15,23 +17,24 @@ export default function ProjectList({ studentData }: { studentData: Student }) {
         const icon = result ? 'checkmark-circle' : 'ban'
 
         return (
-            <>
-                <View style={styles.projectItem}>
-                    <View style={styles.name}>
-                        <Text>{item?.project?.name}</Text>
-                        <Text>{status}</Text>
-                    </View>
-                    <View style={styles.result}>
-                        {status === 'finished' && (
+            <View style={styles.projectItem}>
+                <View style={styles.name}>
+                    <Text>{item?.project?.name}</Text>
+                    <Text>{status}</Text>
+                </View>
+                <View style={styles.result}>
+                    {status === 'finished' && (
+                        <>
                             <Ionicons
                                 name={icon}
                                 size={18}
                                 color={result ? 'green' : 'red'}
                             />
-                        )}
-                    </View>
+                            <Text>{item?.final_mark}</Text>
+                        </>
+                    )}
                 </View>
-            </>
+            </View>
         )
     }
 

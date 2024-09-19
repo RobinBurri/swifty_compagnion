@@ -5,7 +5,10 @@ export type Project = {
     ['validated?']: boolean
     status: 'finished' | 'in_progress' | 'waiting_for_correction'
     cursus_ids: number[]
+    final_mark: number
 }
+
+export type Skill = { id: 4; level: 2.9; name: 'Unix' }
 
 export default class Student {
     constructor(
@@ -16,7 +19,8 @@ export default class Student {
         private numberOfProjects: number,
         private projects: Project[],
         private correctionPoints: number,
-        private wallet: number
+        private wallet: number,
+        private skills: Skill[]
     ) {}
 
     getLogin(): string {
@@ -49,5 +53,9 @@ export default class Student {
 
     getWallet(): number {
         return this.wallet
+    }
+
+    getSkills(): Skill[] {
+        return this.skills
     }
 }
