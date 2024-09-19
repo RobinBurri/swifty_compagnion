@@ -13,7 +13,7 @@ export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) 
 
     const onChangeLoginHandler = (text: string) => {
         setEnteredLogin(text)
-        if (text.length >= 3) {
+        if (text.length >= 2) {
             setDisableBtn(false)
         } else {
             setDisableBtn(true)
@@ -21,7 +21,7 @@ export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) 
     }
 
     const filterHandler = () => {
-        if (enteredLogin.length < 3) {
+        if (enteredLogin.length < 2) {
             return
         }
         setDisableBtn(true)
@@ -46,7 +46,7 @@ export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) 
                     autoCorrect={false}
                     autoCapitalize="none"
                     cursorColor={GlobalStyles.colors.beige}
-                    placeholder="Enter at least 3 characters"
+                    placeholder="Enter at least 2 characters"
                     placeholderTextColor={GlobalStyles.colors.beige}
                 />
 

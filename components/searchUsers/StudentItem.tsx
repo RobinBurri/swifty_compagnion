@@ -18,13 +18,24 @@ export default function StudentItem({
     const onSelectStudent = () => {
         navigation.navigate('Detail', { studentId: student.getId() })
     }
+    const imageResource = student.getPicture()
+    if (!imageResource) {
+        return (
+            <Pressable onPress={onSelectStudent}>
+                <View style={styles.container}>
+                    <Image
+                        source={require('../../assets/anonyme.jpeg')}
+                        style={styles.image}
+                    />
+                    <Text style={styles.text}>{student.getLogin()}</Text>
+                </View>
+            </Pressable>
+        )
+    }
     return (
         <Pressable onPress={onSelectStudent}>
             <View style={styles.container}>
-                <Image
-                    source={{ uri: student.getPicture() }}
-                    style={styles.image}
-                />
+                <Image source={{ uri: imageResource }} style={styles.image} />
                 <Text style={styles.text}>{student.getLogin()}</Text>
             </View>
         </Pressable>

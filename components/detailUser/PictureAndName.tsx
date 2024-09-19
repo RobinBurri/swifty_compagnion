@@ -7,6 +7,21 @@ export default function PictureAndName({
 }: {
     studentData: FullStudent
 }) {
+    if (!studentData.getImage()) {
+        return (
+            <View style={styles.nameAndPicture}>
+                <Image
+                    source={require('../../assets/anonyme.jpeg')}
+                    style={styles.picture}
+                />
+                <View style={styles.textbox}>
+                    <Text style={[styles.name, styles.textColor]}>
+                        {studentData.getLogin()}
+                    </Text>
+                </View>
+            </View>
+        )
+    }
     return (
         <View style={styles.nameAndPicture}>
             <Image

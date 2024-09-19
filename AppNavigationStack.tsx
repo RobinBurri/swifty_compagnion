@@ -33,6 +33,7 @@ export default function AppNavigationStack() {
                 component={DetailScreen as never}
                 options={{
                     title: 'Student Details',
+                    headerBackTitle: 'Search',
                 }}
             />
         </Stack.Navigator>

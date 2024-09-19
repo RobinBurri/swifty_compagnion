@@ -14,7 +14,7 @@ export default function SkillList({ studentData }: { studentData: Student }) {
         return (
             <View style={styles.skillItem}>
                 <View style={styles.name}>
-                    <Text>{item?.name}</Text>
+                    <Text style={styles.skillTitle}>{item?.name}</Text>
                     <Text>{item?.level.toFixed(2)}</Text>
                 </View>
             </View>
@@ -36,8 +36,13 @@ const styles = StyleSheet.create({
         margin: 10,
         backgroundColor: GlobalStyles.colors.lightGreen,
         borderRadius: GlobalStyles.card.borderRadius,
-        minWidth: '80%',
+        minWidth: '90%',
         justifyContent: 'center',
+        overflow: 'hidden',
+    },
+    skillTitle: {
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.beige,
     },
 
     name: {

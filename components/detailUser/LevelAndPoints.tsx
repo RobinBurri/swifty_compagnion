@@ -45,5 +45,7 @@ const styles = StyleSheet.create({
         color: GlobalStyles.colors.darkGreen,
         textAlign: 'center',
         margin: 8,
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 })
