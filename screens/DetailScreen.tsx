@@ -9,7 +9,7 @@ import SkillList from '../components/detailUser/SkillList'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { GlobalStyles } from '../constants/styles'
 import FullStudent from '../models/Student'
-import { useStudentById } from '../utils/getStudent'
+import { useStudentById } from '../utils/useStudentById'
 
 type RootStackParamList = {
     Detail: { studentId: number }

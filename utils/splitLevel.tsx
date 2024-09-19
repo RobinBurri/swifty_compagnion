@@ -3,7 +3,10 @@ export default function splitLevel(itemLevel: number | null | undefined) {
       return { level: null, percent: null };
     }
   
-    const [levelPart, percentPart = '0'] = String(itemLevel).split('.');
+    let [levelPart, percentPart = '0'] = String(itemLevel).split('.');
+    if (percentPart.length === 1 && percentPart !== '0') {
+      percentPart += '0';
+    }
     
     const level = parseInt(levelPart);
     const percent = parseInt(percentPart);

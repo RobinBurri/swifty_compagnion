@@ -14,7 +14,7 @@ export default function LevelAndPoints({
         <View style={styles.levelAndPoints}>
             <View style={styles.points}>
                 <Text style={styles.textColor}>
-                    wallet points: {studentData.getWallet()}
+                    wallets: {studentData.getWallet()}
                 </Text>
                 <Text style={styles.textColor}>
                     Evaluation points: {studentData.getCorrectionPoints()}

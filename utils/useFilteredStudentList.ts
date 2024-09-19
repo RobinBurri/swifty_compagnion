@@ -1,13 +1,12 @@
 import axios from 'axios'
 import { useCallback, useContext } from 'react'
 import { API_URL } from '../constants/apiUrl'
+import { LOG_TOKEN } from '../constants/tokenLog'
 import BasicStudent from '../models/BasicStudent'
-import Student, { Skill } from '../models/Student'
 import { AuthContext } from '../store/auth-context'
 
 // 47 is the campus id for Lausanne
 const ALL_LAUSANNE_STUDENTS = '/v2/campus/47/users'
-const ALL_STUDENTS = '/v2/users/'
 
 export const useFilteredStudentList = () => {
     const authCtx = useContext(AuthContext)
@@ -21,6 +20,9 @@ export const useFilteredStudentList = () => {
 
             try {
                 const token = await authCtx.getToken()
+                if (LOG_TOKEN) {
+                    console.log('Token:', token?.getToken())
+                }
                 let allStudents: BasicStudent[] = []
                 let currentPage = 1
                 let hasMoreStudents = true
@@ -31,7 +33,7 @@ export const useFilteredStudentList = () => {
                         `${API_URL}${ALL_LAUSANNE_STUDENTS}${queryParameter}`,
                         {
                             headers: {
-                                Authorization: `Bearer ${token}`,
+                                Authorization: `Bearer ${token?.getToken()}`,
                             },
                             params: {
                                 page: currentPage,
@@ -66,8 +68,6 @@ export const useFilteredStudentList = () => {
                         currentPage++
                     }
                 }
-
-                console.log('Total students fetched: ', allStudents.length)
                 return allStudents
             } catch (error) {
                 console.error('Failed to get students:', error)
@@ -80,80 +80,6 @@ export const useFilteredStudentList = () => {
     return { getAllFilteredStudents }
 }
 
-export const useStudentById = () => {
-    const authCtx = useContext(AuthContext)
-    const getStudentById = useCallback(
-        async (studentId: number) => {
-            if (!authCtx) {
-                console.error('Auth context is not available')
-                return
-            }
 
-            try {
-                const token = await authCtx.getToken()
-                const response = await axios.get(
-                    `${API_URL}${ALL_STUDENTS}${studentId.toString()}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
 
-                const student = createStudent(response.data)
-                return student
-            } catch (error) {
-                console.error('Failed to get student:', error)
-                return undefined
-            }
-        },
-        [authCtx]
-    )
 
-    return { getStudentById }
-}
-
-const createStudent = (studentData: any): Student => {
-    const skills: Skill[] = []
-    let level = 0
-    let blackholed = false
-
-    if (studentData.blackholed_at) {
-        blackholed = true
-    }
-
-    if (studentData.cursus_users[1]) {
-        studentData.cursus_users[1].skills.forEach((skill: any) => {
-            skills.push({
-                id: skill.id,
-                level: skill.level,
-                name: skill.name,
-            })
-        })
-    }
-
-    const projects = studentData.projects_users.filter((project: any) => {
-        return project.cursus_ids.includes(21)
-    })
-
-    if (studentData.cursus_users[1]) {
-        level = studentData.cursus_users[1].level
-            ? studentData.cursus_users[1].level
-            : 0
-    }
-    console.log('-----------------')
-    console.log(studentData)
-    console.log('-----------------')
-
-    const newStudent = new Student(
-        studentData.login,
-        studentData.image.link,
-        level,
-        projects,
-        studentData.correction_point,
-        studentData.wallet,
-        skills,
-        blackholed
-    )
-    return newStudent
-}
