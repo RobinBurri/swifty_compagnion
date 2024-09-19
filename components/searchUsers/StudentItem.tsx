@@ -19,6 +19,10 @@ export default function StudentItem({
         navigation.navigate('Detail', { studentId: student.getId() })
     }
     const imageResource = student.getPicture()
+    const loginColor = student.isBlackholed() 
+    ? GlobalStyles.colors.red 
+    : GlobalStyles.colors.beige;
+
     if (!imageResource) {
         return (
             <Pressable onPress={onSelectStudent}>
@@ -27,7 +31,7 @@ export default function StudentItem({
                         source={require('../../assets/anonyme.jpeg')}
                         style={styles.image}
                     />
-                    <Text style={styles.text}>{student.getLogin()}</Text>
+                    <Text style={[styles.text, {color: loginColor}]}>{student.getLogin()}</Text>
                 </View>
             </Pressable>
         )
@@ -36,7 +40,7 @@ export default function StudentItem({
         <Pressable onPress={onSelectStudent}>
             <View style={styles.container}>
                 <Image source={{ uri: imageResource }} style={styles.image} />
-                <Text style={styles.text}>{student.getLogin()}</Text>
+                <Text style={[styles.text, {color: loginColor}]}>{student.getLogin()}</Text>
             </View>
         </Pressable>
     )
@@ -67,7 +71,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     text: {
-        color: GlobalStyles.colors.beige,
         fontSize: 20,
     },
 })

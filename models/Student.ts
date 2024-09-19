@@ -18,7 +18,8 @@ export default class Student {
         private projects: Project[],
         private correctionPoints: number,
         private wallet: number,
-        private skills: Skill[]
+        private skills: Skill[],
+        private blackholed: boolean
     ) {}
 
     getLogin(): string {
@@ -47,5 +48,9 @@ export default class Student {
 
     getSkills(): Skill[] {
         return this.skills
+    }
+
+    isBlackholed(): boolean {
+        return this.blackholed
     }
 }

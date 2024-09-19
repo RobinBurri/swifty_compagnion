@@ -3,6 +3,7 @@ export default class BasicStudent {
         private id: number,
         private picture: string,
         private login: string,
+        private blackholed: boolean
     ) {}
 
     public getId(): number {
@@ -15,6 +16,10 @@ export default class BasicStudent {
 
     public getLogin(): string {
         return this.login;
+    }
+
+    public isBlackholed(): boolean {
+        return this.blackholed;
     }
 }
 

@@ -45,27 +45,26 @@ export const useFilteredStudentList = () => {
                         if (!bestImage) {
                             bestImage = student.image.link
                         }
+                        let blackholed = false
+
+                        if (student.blackholed_at) {
+                            blackholed = true
+                        }
+
                         return new BasicStudent(
                             student.id,
                             bestImage,
-                            student.login
+                            student.login,
+                            blackholed
                         )
                     })
 
-                    // if (studentsOnPage.length === 0) {
-                    //     hasMoreStudents = false
-                    // } else {
-                    //     allStudents = [...allStudents, ...studentsOnPage]
-                    //     currentPage++
-                    // }
-                    allStudents = [...allStudents, ...studentsOnPage]
-                    hasMoreStudents = false
-
-                    console.log('Current page: ', currentPage)
-                    console.log(
-                        'Students on this page: ',
-                        studentsOnPage.length
-                    )
+                    if (studentsOnPage.length === 0) {
+                        hasMoreStudents = false
+                    } else {
+                        allStudents = [...allStudents, ...studentsOnPage]
+                        currentPage++
+                    }
                 }
 
                 console.log('Total students fetched: ', allStudents.length)
@@ -117,6 +116,11 @@ export const useStudentById = () => {
 const createStudent = (studentData: any): Student => {
     const skills: Skill[] = []
     let level = 0
+    let blackholed = false
+
+    if (studentData.blackholed_at) {
+        blackholed = true
+    }
 
     if (studentData.cursus_users[1]) {
         studentData.cursus_users[1].skills.forEach((skill: any) => {
@@ -133,14 +137,13 @@ const createStudent = (studentData: any): Student => {
     })
 
     if (studentData.cursus_users[1]) {
-     level = studentData.cursus_users[1].level
-        ? studentData.cursus_users[1].level
-        : 0
+        level = studentData.cursus_users[1].level
+            ? studentData.cursus_users[1].level
+            : 0
     }
-    console.log("-----------------")
-    console.log(studentData.image.link)
-    console.log("-----------------")
-
+    console.log('-----------------')
+    console.log(studentData)
+    console.log('-----------------')
 
     const newStudent = new Student(
         studentData.login,
@@ -149,7 +152,8 @@ const createStudent = (studentData: any): Student => {
         projects,
         studentData.correction_point,
         studentData.wallet,
-        skills
+        skills,
+        blackholed
     )
     return newStudent
 }
