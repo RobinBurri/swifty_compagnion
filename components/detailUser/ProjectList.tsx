@@ -4,9 +4,7 @@ import { GlobalStyles } from '../../constants/styles'
 import Student, { Project } from '../../models/Student'
 
 export default function ProjectList({ studentData }: { studentData: Student }) {
-    const projects = studentData
-        .getProjects()
-        .filter((project) => project.cursus_ids[0] === 66)
+    const projects = studentData.getProjects()
     if (projects.length === 0) {
         return <Text>No 42 projects</Text>
     }
@@ -15,22 +13,41 @@ export default function ProjectList({ studentData }: { studentData: Student }) {
         let status = item?.status
         let result = item?.['validated?']
         const icon = result ? 'checkmark-circle' : 'ban'
+        if (status === 'in_progress' && item?.final_mark === 0) {
+            status = 'failed'
+        }
+
+        const statusColor =
+            status === 'finished'
+                ? 'darkgreen'
+                : status === 'failed'
+                ? 'red'
+                : 'black'
+
+        let title = item?.project?.name
+        if (title && title.length > 25) {
+            title = title.substring(0, 25) + '...'
+        }
 
         return (
             <View style={styles.projectItem}>
                 <View style={styles.name}>
-                    <Text>{item?.project?.name}</Text>
-                    <Text>{status}</Text>
+                    <Text style={styles.projectTitle}>
+                        {title}
+                    </Text>
+                    <Text style={{ color: statusColor }}>{status}</Text>
                 </View>
                 <View style={styles.result}>
-                    {status === 'finished' && (
+                    {(status === 'finished' || status === 'failed') && (
                         <>
+                            <Text style={styles.resultText}>
+                                {item?.final_mark}
+                            </Text>
                             <Ionicons
                                 name={icon}
                                 size={18}
                                 color={result ? 'green' : 'red'}
                             />
-                            <Text>{item?.final_mark}</Text>
                         </>
                     )}
                 </View>
@@ -53,16 +70,26 @@ const styles = StyleSheet.create({
         margin: 10,
         backgroundColor: GlobalStyles.colors.lightGreen,
         borderRadius: GlobalStyles.card.borderRadius,
-        minWidth: '80%',
+        minWidth: '90%',
         justifyContent: 'center',
+        overflow: 'hidden',
     },
-
     name: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
     },
+    projectTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.beige,
+    },
+
     result: {
         marginTop: 10,
-        alignSelf: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    resultText: {
+        marginRight: 5,
     },
 })

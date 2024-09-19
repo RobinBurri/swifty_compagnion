@@ -184,7 +184,9 @@ export const useStudentById = () => {
 const createStudent = (studentData: any): Student => {
     const skills: Skill[] = []
 
-    studentData.cursus_users[0].skills.forEach((skill: any) => {
+
+
+    studentData.cursus_users[1].skills.forEach((skill: any) => {
         skills.push({
             id: skill.id,
             level: skill.level,
@@ -192,19 +194,22 @@ const createStudent = (studentData: any): Student => {
         })
     })
 
+    const projects = studentData.projects_users.filter((project: any) => {
+        return project.cursus_ids.includes(21)
+    })
+
+    const level = studentData.cursus_users[1].level ? studentData.cursus_users[1].level : 0
+
     console.log(studentData)
-
     console.log('-------------------')
-    console.log(studentData.cursus_users)
-
+    console.log(projects)
     console.log('-------------------')
 
     const newStudent = new Student(
         studentData.login,
         studentData.image.link,
-        studentData.cursus_users[1].level,
-        studentData.projects_users.length,
-        studentData.projects_users,
+        level,
+        projects,
         studentData.correction_point,
         studentData.wallet,
         skills

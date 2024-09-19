@@ -3,7 +3,7 @@ export type Project = {
         name: string
     }
     ['validated?']: boolean
-    status: 'finished' | 'in_progress' | 'waiting_for_correction'
+    status: 'finished' | 'in_progress' | 'waiting_for_correction' | 'failed'
     cursus_ids: number[]
     final_mark: number
 }
@@ -15,7 +15,6 @@ export default class Student {
         private login: string,
         private image: string,
         private level: number,
-        private numberOfProjects: number,
         private projects: Project[],
         private correctionPoints: number,
         private wallet: number,
@@ -32,10 +31,6 @@ export default class Student {
 
     getLevel(): number {
         return this.level
-    }
-
-    getNumberOfProjects(): number {
-        return this.numberOfProjects
     }
 
     getProjects(): Project[] {

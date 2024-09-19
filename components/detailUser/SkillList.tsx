@@ -15,7 +15,7 @@ export default function SkillList({ studentData }: { studentData: Student }) {
             <View style={styles.skillItem}>
                 <View style={styles.name}>
                     <Text>{item?.name}</Text>
-                    <Text>{item?.level}</Text>
+                    <Text>{item?.level.toFixed(2)}</Text>
                 </View>
             </View>
         )
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
     name: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
     },
     result: {
         marginTop: 10,
