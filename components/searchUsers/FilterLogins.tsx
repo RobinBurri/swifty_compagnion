@@ -4,21 +4,32 @@ import { GlobalStyles } from '../../constants/styles'
 import CustomBtn from '../ui/CustomBtn'
 
 interface FilterLoginsProps {
-    filterLogins: () => void
+    filterLoginHandler: (enteredLogin: string) => void
 }
 
-export default function FilterLogins({ filterLogins }: FilterLoginsProps) {
-    const [login, setLogin] = useState('')
+export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) {
+    const [enteredLogin, setEnteredLogin] = useState('')
+    const [disableBtn, setDisableBtn] = useState(true)
 
     const onChangeLoginHandler = (text: string) => {
-        setLogin(text)
+        setEnteredLogin(text)
+        if (text.length >= 3) {
+            setDisableBtn(false)
+        } else {
+            setDisableBtn(true)
+        }
     }
 
-    const filterLoginsHandler = () => {
-        if (login.length < 3) {
+    const filterHandler = () => {
+        if (enteredLogin.length < 3) {
             return
         }
-        filterLogins()
+        setDisableBtn(true)
+        filterLoginHandler(enteredLogin);
+        setTimeout(() => {
+            setDisableBtn(false)
+        }, 1000)
+        
     }
 
     return (
@@ -27,7 +38,7 @@ export default function FilterLogins({ filterLogins }: FilterLoginsProps) {
             <View style={styles.inputbtn}>
                 <TextInput
                     style={styles.input}
-                    value={login}
+                    value={enteredLogin}
                     onChangeText={onChangeLoginHandler}
                     inputMode="text"
                     maxLength={15}
@@ -41,9 +52,10 @@ export default function FilterLogins({ filterLogins }: FilterLoginsProps) {
 
                 <CustomBtn
                     title="Filter"
-                    onPress={filterLoginsHandler}
+                    onPress={filterHandler}
                     mode="raised"
                     style={styles.button}
+                    disableBtn={disableBtn}
                 />
             </View>
         </View>

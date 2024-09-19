@@ -11,9 +11,13 @@ export default function SearchScreen() {
     if (studentCtx.isLoading) {
         return <LoadingOverlay />
     }
+    const loadFilterLoginHandler = (loginEntered: string) => { 
+        console.log('Filtering by login: ', loginEntered)
+     }
+
     return (
         <SafeAreaView style={styles.container}>
-            <FilterLogins filterLogins={() => {}} />
+            <FilterLogins filterLoginHandler={loadFilterLoginHandler} />
             <StudentList students={studentCtx.students} />
         </SafeAreaView>
     )

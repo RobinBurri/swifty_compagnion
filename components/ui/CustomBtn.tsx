@@ -6,6 +6,7 @@ interface CustomBtnProps {
     onPress: () => void
     mode?: 'flat' | 'raised'
     style?: ViewStyle
+    disableBtn?: boolean
 }
 
 export default function CustomBtn({
@@ -13,12 +14,14 @@ export default function CustomBtn({
     onPress,
     mode,
     style,
+    disableBtn
 }: CustomBtnProps) {
     return (
         <View style={style}>
             <Pressable
                 onPress={onPress}
-                style={({ pressed }) => pressed && styles.pressed}
+                style={({ pressed }) => (pressed || disableBtn) && styles.pressed}
+                disabled={disableBtn}
             >
                 <View style={[styles.btn, mode === 'flat' && styles.flat]}>
                     <Text
@@ -58,5 +61,6 @@ const styles = StyleSheet.create({
         opacity: 0.75,
         backgroundColor: GlobalStyles.colors.lightGreen,
         borderRadius: GlobalStyles.card.borderRadius,
+        
     },
 })
