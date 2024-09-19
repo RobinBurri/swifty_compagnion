@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 import Student from '../../models/Student'
+import splitLevel from '../../utils/splitLevel'
 
 export default function LevelAndPoints({
     studentData,
 }: {
     studentData: Student
 }) {
-    const levelPercentage =
-        studentData.getGrade() === null ? 0 : studentData.getGrade()
+    const { level, percent } = splitLevel(studentData.getLevel())
 
     return (
         <View style={styles.levelAndPoints}>
@@ -22,7 +22,7 @@ export default function LevelAndPoints({
             </View>
 
             <Text style={styles.textColor}>
-                Level: {studentData.getLevel()} - {levelPercentage}%
+                Level: {level} - {percent}%
             </Text>
         </View>
     )

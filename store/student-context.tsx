@@ -14,6 +14,7 @@ type StudentContextType = {
     students: BasicStudent[]
     setStudents: (student: BasicStudent) => void
     getStudents: () => BasicStudent[]
+    newSetStudents: (newStudents: BasicStudent[] ) => void
     isLoading: boolean
 }
 
@@ -25,6 +26,7 @@ export const StudentsContext = createContext<StudentContextType>({
     students: [],
     setStudents: () => {},
     getStudents: () => [],
+    newSetStudents: () => [],
     isLoading: true,
 })
 
@@ -61,8 +63,12 @@ export const StudentsContextProvider = ({
     const value = {
         students: students,
         setStudents: (student: BasicStudent) =>
-          setStudents([...students, student]),
+            setStudents([...students, student]),
         getStudents: () => students,
+        newSetStudents: (newStudents: BasicStudent[]) => {
+            setStudents([])
+            setStudents(newStudents)   
+        },
         isLoading: isLoading,
     }
 

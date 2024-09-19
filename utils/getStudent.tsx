@@ -195,15 +195,14 @@ const createStudent = (studentData: any): Student => {
     console.log(studentData)
 
     console.log('-------------------')
-    console.log(studentData.cursus_users[0].final_mark)
+    console.log(studentData.cursus_users)
 
     console.log('-------------------')
 
     const newStudent = new Student(
         studentData.login,
         studentData.image.link,
-        studentData.cursus_users[0].level,
-        studentData.cursus_users[0].grade,
+        studentData.cursus_users[1].level,
         studentData.projects_users.length,
         studentData.projects_users,
         studentData.correction_point,

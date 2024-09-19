@@ -1,19 +1,38 @@
-import React, { useContext } from 'react'
-import { StyleSheet } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FilterLogins from '../components/searchUsers/FilterLogins'
 import StudentList from '../components/searchUsers/StudentList'
 import LoadingOverlay from '../components/ui/LoadingOverlay'
 import { StudentsContext } from '../store/student-context'
+import { useFilteredStudentList } from '../utils/getStudent'
 
 export default function SearchScreen() {
+    const { getAllFilteredStudents } = useFilteredStudentList()
     const studentCtx = useContext(StudentsContext)
+    const [isLoadingNewStudents, setIsLoadingNewStudents] = useState(false)
     if (studentCtx.isLoading) {
         return <LoadingOverlay />
     }
-    const loadFilterLoginHandler = (loginEntered: string) => { 
+
+    async function loadNewStudents(loginEntered: string) {
+        try {
+            setIsLoadingNewStudents(true)
+            const studentList = await getAllFilteredStudents(loginEntered)
+            if (studentList) {
+                studentCtx.newSetStudents(studentList)
+            }
+        } catch (error) {
+            Alert.alert('Error while fetching students')
+        } finally {
+            setIsLoadingNewStudents(false)
+        }
+    }
+
+    const loadFilterLoginHandler = (loginEntered: string) => {
         console.log('Filtering by login: ', loginEntered)
-     }
+        loadNewStudents(loginEntered)
+    }
 
     return (
         <SafeAreaView style={styles.container}>

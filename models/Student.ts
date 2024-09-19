@@ -15,7 +15,6 @@ export default class Student {
         private login: string,
         private image: string,
         private level: number,
-        private grade: number,
         private numberOfProjects: number,
         private projects: Project[],
         private correctionPoints: number,
@@ -33,10 +32,6 @@ export default class Student {
 
     getLevel(): number {
         return this.level
-    }
-
-    getGrade(): number {
-        return this.grade
     }
 
     getNumberOfProjects(): number {
