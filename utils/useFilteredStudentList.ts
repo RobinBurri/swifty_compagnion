@@ -21,7 +21,7 @@ export const useFilteredStudentList = () => {
             }
 
             try {
-                const token = await authCtx.getToken()
+                const token = authCtx.getToken()
                 let allStudents: BasicStudent[] = []
                 let currentPage = 1
                 let hasMoreStudents = true
@@ -44,7 +44,7 @@ export const useFilteredStudentList = () => {
                     const studentsOnPage: BasicStudent[] = response.data.map(
                         (student: any) => createBasicStudent(student)
                     )
-                    
+
                     if (studentsOnPage.length === 0) {
                         hasMoreStudents = false
                     } else {
@@ -54,9 +54,11 @@ export const useFilteredStudentList = () => {
                 }
                 return allStudents
             } catch (error) {
-                Alert.alert('Something went wrong while fetching data', 'Please try again.', [
-                    { text: 'OK' },
-                ])
+                Alert.alert(
+                    'Something went wrong while fetching data',
+                    'Please try again.',
+                    [{ text: 'OK' }]
+                )
                 return []
             }
         },

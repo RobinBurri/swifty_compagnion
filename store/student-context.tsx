@@ -6,6 +6,7 @@ type StudentContextType = {
     setStudents: (student: BasicStudent) => void
     getStudents: () => BasicStudent[]
     newSetStudents: (newStudents: BasicStudent[]) => void
+    hasSearched: boolean
 }
 
 type StudentsContextProviderProps = {
@@ -17,22 +18,28 @@ export const StudentsContext = createContext<StudentContextType>({
     setStudents: () => {},
     getStudents: () => [],
     newSetStudents: () => [],
+    hasSearched: false,
 })
 
 export const StudentsContextProvider = ({
     children,
 }: StudentsContextProviderProps) => {
     const [students, setStudents] = useState<BasicStudent[]>([])
+    const [ hasSearched, setHasSearched ] = useState(false)
 
     const value = {
         students: students,
-        setStudents: (student: BasicStudent) =>
-            setStudents([...students, student]),
+        setStudents: (student: BasicStudent) => {
+            setStudents([...students, student])
+            setHasSearched(true)
+        },
         getStudents: () => students,
         newSetStudents: (newStudents: BasicStudent[]) => {
             setStudents([])
             setStudents(newStudents)
+            setHasSearched(true)
         },
+        hasSearched: hasSearched
     }
 
     return (

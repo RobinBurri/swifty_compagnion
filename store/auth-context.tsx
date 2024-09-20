@@ -1,10 +1,10 @@
 import React, {
-  createContext,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
+    createContext,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
 } from 'react'
 import { Alert } from 'react-native'
 import { LOG_TOKEN } from '../constants/tokenLog'
@@ -61,6 +61,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
                 if (LOG_TOKEN) {
                     console.log('Token loaded:', token.getToken())
                     console.log('Token expires in:', token.getExpiresIn())
+                    console.log('Token created at:', token.getCreatedAt())
                 }
             } else {
                 throw new Error('Failed to get access token')
@@ -95,7 +96,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
                             console.log('Token refreshed:', token.getToken())
                         }
                     } else {
-                        throw new Error('Failed to refresh token')
+                        Alert.alert('Error refreshing token', 'Try again', [{ text: 'OK' }])
                     }
                 } catch (error) {
                     console.error('Error refreshing token:', error)
@@ -103,7 +104,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
                     Alert.alert(
                         'Authentication Error',
                         'Failed to refresh the access token. Please try to authenticate again.',
-                        [{ text: 'OK' }]
+                        [{ text: 'OK', onPress: async () => retryAuth }]
                     )
                 }
             }

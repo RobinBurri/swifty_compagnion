@@ -41,9 +41,12 @@ export default class Token {
     }
 
     isTokenExpiringSoon(): boolean {
-        const currentTime = Math.floor(Date.now() / 1000);
-        const expirationTime = this.getExpirationTime();
-        const timeUntilExpiration = expirationTime - currentTime;
-        return timeUntilExpiration <= 10 && timeUntilExpiration > 0;
-      }
+        const currentTime = Math.floor(Date.now() / 1000)
+        const expirationTime = this.getExpirationTime()
+        const timeUntilExpiration = expirationTime - currentTime
+        return timeUntilExpiration <= 60 && timeUntilExpiration > 0
+    }
 }
+
+
+// add a gotTokenTime to token so we can check if the token is still valid

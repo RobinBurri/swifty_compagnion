@@ -35,5 +35,6 @@ export const useStudentById = () => {
         },
         [authCtx]
     )
+
     return { getStudentById }
 }

@@ -30,7 +30,7 @@ export default function DetailScreen({ route }: DetailScreenProps) {
     useEffect(() => {
         async function loadStudentDate() {
             const student = await getStudentById(studentId)
-            if (!student) {
+            if (student) {
                 setStudentData(student)
             } else {
                 Alert.alert(

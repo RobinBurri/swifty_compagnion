@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FilterLogins from '../components/searchUsers/FilterLogins'
 import StudentList from '../components/searchUsers/StudentList'
@@ -11,30 +11,19 @@ export default function SearchScreen() {
     const { getAllFilteredStudents } = useFilteredStudentList()
     const studentCtx = useContext(StudentsContext)
     const [isLoadingNewStudents, setIsLoadingNewStudents] = useState(false)
+    const [lastSearch, setLastSearch] = useState('')
 
     async function loadNewStudents(loginEntered: string) {
-        try {
-            setIsLoadingNewStudents(true)
-            const studentList = await getAllFilteredStudents(loginEntered)
-            if (studentList && studentList?.length !== 0) {
-                studentCtx.newSetStudents(studentList)
-            } else {
-                Alert.alert(
-                    'No students found',
-                    'Try another search combination',
-                    [{ text: 'OK' }]
-                )
-            }
-        } catch (error) {
-            Alert.alert('Error while fetching students', 'Please try again.', [
-                { text: 'OK' },
-            ])
-        } finally {
-            setIsLoadingNewStudents(false)
+        setIsLoadingNewStudents(true)
+        const studentList = await getAllFilteredStudents(loginEntered)
+        if (studentList) {
+            studentCtx.newSetStudents(studentList)
         }
+        setIsLoadingNewStudents(false)
     }
 
     const loadFilterLoginHandler = (loginEntered: string) => {
+        setLastSearch(loginEntered)
         loadNewStudents(loginEntered)
     }
 
@@ -49,7 +38,7 @@ export default function SearchScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <FilterLogins filterLoginHandler={loadFilterLoginHandler} />
-            <StudentList students={studentCtx.students} />
+            <StudentList students={studentCtx.students} lastSearch={lastSearch} />
         </SafeAreaView>
     )
 }
