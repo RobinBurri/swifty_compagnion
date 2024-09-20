@@ -69,10 +69,16 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     card: {
+        flex: 1,
         backgroundColor: GlobalStyles.colors.beige,
         borderRadius: 10,
         padding: 20,
         margin: 20,
         alignItems: 'center',
+        elevation: 5,
+        shadowColor: GlobalStyles.colors.darkBrown,
+        shadowOffset: { width: 3, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
     },
 })

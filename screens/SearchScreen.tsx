@@ -16,11 +16,19 @@ export default function SearchScreen() {
         try {
             setIsLoadingNewStudents(true)
             const studentList = await getAllFilteredStudents(loginEntered)
-            if (studentList) {
+            if (studentList && studentList?.length !== 0) {
                 studentCtx.newSetStudents(studentList)
+            } else {
+                Alert.alert(
+                    'No students found',
+                    'Try another search combination',
+                    [{ text: 'OK' }]
+                )
             }
         } catch (error) {
-            Alert.alert('Error while fetching students')
+            Alert.alert('Error while fetching students', 'Please try again.', [
+                { text: 'OK' },
+            ])
         } finally {
             setIsLoadingNewStudents(false)
         }

@@ -12,7 +12,7 @@ export const useStudentById = () => {
         async (studentId: number) => {
             if (!authCtx) {
                 console.error('Auth context is not available')
-                return
+                return null
             }
 
             try {
@@ -29,8 +29,7 @@ export const useStudentById = () => {
                 const student = createStudent(response.data)
                 return student
             } catch (error) {
-                console.error('Failed to get student:', error)
-                return undefined
+                return null
             }
         },
         [authCtx]

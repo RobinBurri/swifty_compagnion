@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         borderRadius: GlobalStyles.card.borderRadius,
         width: '95%',
         marginBottom: 10,
-        elevation: 3,
+        elevation: 5,
         shadowColor: GlobalStyles.colors.darkBrown,
         shadowOffset: { width: 3, height: 2 },
         shadowOpacity: 0.5,

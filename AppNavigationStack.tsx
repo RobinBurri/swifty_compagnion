@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
 import { GlobalStyles } from './constants/styles'
 import DetailScreen from './screens/DetailScreen'
 import SearchScreen from './screens/SearchScreen'
@@ -26,6 +27,7 @@ export default function AppNavigationStack() {
                 component={SearchScreen}
                 options={{
                     title: 'Search Students',
+                    headerTitleAlign: 'center',
                 }}
             />
             <Stack.Screen
@@ -34,6 +36,7 @@ export default function AppNavigationStack() {
                 options={{
                     title: 'Student Details',
                     headerBackTitle: 'Search',
+                    headerTitleAlign: 'center',
                 }}
             />
         </Stack.Navigator>

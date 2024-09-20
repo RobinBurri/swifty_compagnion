@@ -32,11 +32,11 @@ export default function ButtonSelection({
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignContent: 'space-around',
         marginTop: 20,
+        marginBottom: 20,
     },
     btn: {
         minWidth: 120,

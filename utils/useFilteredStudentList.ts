@@ -14,7 +14,7 @@ export const useFilteredStudentList = () => {
         async (filteredLogin: string) => {
             if (!authCtx) {
                 console.error('Auth context is not available')
-                return
+                return null
             }
 
             try {
@@ -51,8 +51,7 @@ export const useFilteredStudentList = () => {
                 }
                 return allStudents
             } catch (error) {
-                console.error('Failed to get students:', error)
-                return undefined
+                return null
             }
         },
         [authCtx]

@@ -4,7 +4,6 @@ export const createStudent = (studentData: any): Student => {
     const skills: Skill[] = []
     let level = 0
     let blackholed = false
-    console.log(studentData)
     if (studentData.blackholed_at) {
         blackholed = true
     }

@@ -26,6 +26,7 @@ export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) 
         }
         setDisableBtn(true)
         filterLoginHandler(enteredLogin);
+        setEnteredLogin('')
         setTimeout(() => {
             setDisableBtn(false)
         }, 1000)

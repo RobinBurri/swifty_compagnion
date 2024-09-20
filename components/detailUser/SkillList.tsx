@@ -6,11 +6,10 @@ export default function SkillList({ studentData }: { studentData: Student }) {
     const skills = studentData
         .getSkills()
     if (skills.length === 0) {
-        return <Text>No 42 Skill</Text>
+        return <Text style={styles.noContentText}>No 42 Skill as Student</Text>
     }
 
     const renderItem = ({ item }: { item: Skill }) => {
-
         return (
             <View style={styles.skillItem}>
                 <View style={styles.name}>
@@ -26,14 +25,18 @@ export default function SkillList({ studentData }: { studentData: Student }) {
             data={skills}
             renderItem={renderItem}
             keyExtractor={(item) => item.name}
+            style={styles.flatList}
         />
     )
 }
 
 const styles = StyleSheet.create({
+    flatList: {
+        marginBottom: 20,
+    },
     skillItem: {
         padding: 15,
-        margin: 10,
+        margin: 5,
         backgroundColor: GlobalStyles.colors.lightGreen,
         borderRadius: GlobalStyles.card.borderRadius,
         minWidth: '90%',
@@ -53,4 +56,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'center',
     },
+    noContentText: {
+        alignSelf: "center",
+        marginTop: 20,
+        color: GlobalStyles.colors.red,
+    }
 })
