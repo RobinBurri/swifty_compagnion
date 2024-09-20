@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useCallback, useContext } from 'react'
+import { Alert } from 'react-native'
 import { API_URL } from '../constants/apiUrl'
 import BasicStudent from '../models/BasicStudent'
 import { AuthContext } from '../store/auth-context'
@@ -13,8 +14,10 @@ export const useFilteredStudentList = () => {
     const getAllFilteredStudents = useCallback(
         async (filteredLogin: string) => {
             if (!authCtx) {
-                console.error('Auth context is not available')
-                return null
+                Alert.alert('AuthContext is not setup', 'Please try again.', [
+                    { text: 'OK' },
+                ])
+                return []
             }
 
             try {
@@ -51,7 +54,10 @@ export const useFilteredStudentList = () => {
                 }
                 return allStudents
             } catch (error) {
-                return null
+                Alert.alert('Something went wrong while fetching data', 'Please try again.', [
+                    { text: 'OK' },
+                ])
+                return []
             }
         },
         [authCtx]
