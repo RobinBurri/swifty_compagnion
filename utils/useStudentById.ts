@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useCallback, useContext } from 'react'
+import { Alert } from 'react-native'
 import { API_URL } from '../constants/apiUrl'
 import { AuthContext } from '../store/auth-context'
 import { createStudent } from './createStudent'
@@ -10,11 +11,6 @@ export const useStudentById = () => {
     const authCtx = useContext(AuthContext)
     const getStudentById = useCallback(
         async (studentId: number) => {
-            if (!authCtx) {
-                console.error('Auth context is not available')
-                return null
-            }
-
             try {
                 const token = await authCtx.getToken()
                 const response = await axios.get(
@@ -29,11 +25,15 @@ export const useStudentById = () => {
                 const student = createStudent(response.data)
                 return student
             } catch (error) {
+                Alert.alert(
+                    'Error while fetching student',
+                    'Please go back and try again.',
+                    [{ text: 'OK' }]
+                )
                 return null
             }
         },
         [authCtx]
     )
-
     return { getStudentById }
 }

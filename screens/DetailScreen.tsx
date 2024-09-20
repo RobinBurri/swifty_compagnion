@@ -1,7 +1,9 @@
 import { RouteProp } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
-import ButtonSelection, { btnType } from '../components/detailUser/ButtonSelection'
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native'
+import ButtonSelection, {
+    btnType,
+} from '../components/detailUser/ButtonSelection'
 import LevelAndPoints from '../components/detailUser/LevelAndPoints'
 import PictureAndName from '../components/detailUser/PictureAndName'
 import ProjectList from '../components/detailUser/ProjectList'
@@ -28,18 +30,24 @@ export default function DetailScreen({ route }: DetailScreenProps) {
     useEffect(() => {
         async function loadStudentDate() {
             const student = await getStudentById(studentId)
-            if (student) {
+            if (!student) {
                 setStudentData(student)
+            } else {
+                Alert.alert(
+                    'Error while fetching student',
+                    'Please go back and try again.',
+                    [{ text: 'OK' }]
+                )
             }
         }
-        if (studentId) {
-            loadStudentDate()
-        }
+        loadStudentDate()
     }, [])
 
     const btnPressedHandler = (type: btnType) => {
-        type === btnType.projects ? setInfoShown(btnType.projects) : setInfoShown(btnType.skills)
-      }
+        type === btnType.projects
+            ? setInfoShown(btnType.projects)
+            : setInfoShown(btnType.skills)
+    }
 
     if (!studentData) {
         return (
@@ -55,8 +63,12 @@ export default function DetailScreen({ route }: DetailScreenProps) {
                 <PictureAndName studentData={studentData} />
                 <LevelAndPoints studentData={studentData} />
                 <ButtonSelection btnPressedHandler={btnPressedHandler} />
-                {infoShown === btnType.projects  && <ProjectList studentData={studentData} />}
-                {infoShown === btnType.skills  && <SkillList studentData={studentData} />}
+                {infoShown === btnType.projects && (
+                    <ProjectList studentData={studentData} />
+                )}
+                {infoShown === btnType.skills && (
+                    <SkillList studentData={studentData} />
+                )}
             </View>
         </SafeAreaView>
     )
