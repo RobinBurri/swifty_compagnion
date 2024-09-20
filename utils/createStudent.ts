@@ -1,10 +1,10 @@
-import Student, { Skill } from "../models/Student"
+import Student, { Skill } from '../models/Student'
 
 export const createStudent = (studentData: any): Student => {
     const skills: Skill[] = []
     let level = 0
     let blackholed = false
-
+    console.log(studentData)
     if (studentData.blackholed_at) {
         blackholed = true
     }
@@ -27,6 +27,9 @@ export const createStudent = (studentData: any): Student => {
         level = studentData.cursus_users[1].level
             ? studentData.cursus_users[1].level
             : 0
+        if (studentData.cursus_users[1].blackholed_at) {
+            blackholed = true
+        }
     }
 
     const newStudent = new Student(

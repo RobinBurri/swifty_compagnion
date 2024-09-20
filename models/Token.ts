@@ -20,6 +20,10 @@ export default class Token {
         return this.expires_in
     }
 
+    setExpiresIn(expires_in: number): void {
+        this.expires_in = expires_in
+    }
+
     getCreatedAt(): number {
         return this.created_at
     }

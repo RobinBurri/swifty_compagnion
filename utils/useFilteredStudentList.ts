@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useCallback, useContext } from 'react'
 import { API_URL } from '../constants/apiUrl'
-import { LOG_TOKEN } from '../constants/tokenLog'
 import BasicStudent from '../models/BasicStudent'
 import { AuthContext } from '../store/auth-context'
 
@@ -20,9 +19,6 @@ export const useFilteredStudentList = () => {
 
             try {
                 const token = await authCtx.getToken()
-                if (LOG_TOKEN) {
-                    console.log('Token:', token?.getToken())
-                }
                 let allStudents: BasicStudent[] = []
                 let currentPage = 1
                 let hasMoreStudents = true
@@ -42,25 +38,10 @@ export const useFilteredStudentList = () => {
                         }
                     )
 
-                    const studentsOnPage = response.data.map((student: any) => {
-                        let bestImage = student.image?.versions?.small
-                        if (!bestImage) {
-                            bestImage = student.image.link
-                        }
-                        let blackholed = false
-
-                        if (student.blackholed_at) {
-                            blackholed = true
-                        }
-
-                        return new BasicStudent(
-                            student.id,
-                            bestImage,
-                            student.login,
-                            blackholed
-                        )
-                    })
-
+                    const studentsOnPage: BasicStudent[] = response.data.map(
+                        (student: any) => createBasicStudent(student)
+                    )
+                    
                     if (studentsOnPage.length === 0) {
                         hasMoreStudents = false
                     } else {
@@ -80,6 +61,10 @@ export const useFilteredStudentList = () => {
     return { getAllFilteredStudents }
 }
 
-
-
-
+const createBasicStudent = (student: any) => {
+    let bestImage = student.image?.versions?.small
+    if (!bestImage) {
+        bestImage = student.image.link
+    }
+    return new BasicStudent(student.id, bestImage, student.login)
+}

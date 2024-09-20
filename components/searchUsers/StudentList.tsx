@@ -21,11 +21,6 @@ export default function StudentList({ students }: StudentListProps) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     item: {
         width: '80%',
     },

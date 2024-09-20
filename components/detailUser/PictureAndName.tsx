@@ -15,9 +15,10 @@ export default function PictureAndName({
                     style={styles.picture}
                 />
                 <View style={styles.textbox}>
-                    <Text style={[styles.name, styles.textColor]}>
+                    <Text style={styles.name}>
                         {studentData.getLogin()}
                     </Text>
+                    {studentData.isBlackholed() && <Text style={styles.blackHoled}>Blackholed</Text>}
                 </View>
             </View>
         )
@@ -29,9 +30,10 @@ export default function PictureAndName({
                 style={styles.picture}
             />
             <View style={styles.textbox}>
-                <Text style={[styles.name, styles.textColor]}>
+                <Text style={styles.name}>
                     {studentData.getLogin()}
                 </Text>
+                {studentData.isBlackholed() && <Text  style={styles.blackHoled}>Blackholed</Text>}
             </View>
         </View>
     )
@@ -49,17 +51,19 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50,
     },
-    textColor: {
+    name: {
+        fontSize: 20,
+        fontWeight: 'bold',
         color: GlobalStyles.colors.darkGreen,
         textAlign: 'center',
         margin: 8,
     },
-    name: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
     textbox: {
         width: '50%',
         flexDirection: 'column',
+    },
+    blackHoled: {
+        color: GlobalStyles.colors.red,
+        textAlign: 'center',
     },
 })
