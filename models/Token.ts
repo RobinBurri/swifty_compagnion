@@ -1,52 +1,36 @@
+
 export default class Token {
+    private gotTokenTime: number
     constructor(
         private access_token: string,
-        private token_type: string,
         private expires_in: number,
         private created_at: number,
-        private scope: string,
-        private secret_valid_until: number
-    ) {}
+
+    ) {
+        this.gotTokenTime = Math.floor(Date.now() / 1000)
+    }
 
     getToken(): string {
         return this.access_token
-    }
-
-    getTokenType(): string {
-        return this.token_type
     }
 
     getExpiresIn(): number {
         return this.expires_in
     }
 
-    setExpiresIn(expires_in: number): void {
-        this.expires_in = expires_in
-    }
-
     getCreatedAt(): number {
         return this.created_at
     }
 
-    getScope(): string {
-        return this.scope
-    }
-
-    getSecretValidUntil(): number {
-        return this.secret_valid_until
-    }
-
-    getExpirationTime(): number {
-        return this.created_at + this.expires_in
+    getGotTokenTime(): number {
+        return this.gotTokenTime
     }
 
     isTokenExpiringSoon(): boolean {
         const currentTime = Math.floor(Date.now() / 1000)
-        const expirationTime = this.getExpirationTime()
-        const timeUntilExpiration = expirationTime - currentTime
-        return timeUntilExpiration <= 60 && timeUntilExpiration > 0
+        const timeSinceGotToken = currentTime - this.getGotTokenTime()
+        const timeLeft = this.getExpiresIn() - timeSinceGotToken
+        console.log('Time left:', timeLeft)
+        return timeLeft <= 60 && timeLeft > 0
     }
 }
-
-
-// add a gotTokenTime to token so we can check if the token is still valid

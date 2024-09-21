@@ -26,11 +26,8 @@ type AuthContextProviderProps = {
 
 const placeholderToken = new Token(
   'placeholder',
-  'Bearer',
   3,
   Date.now(),
-  'private',
-  5
 )
 
 const defaultAuthContext: AuthContextType = {
@@ -67,7 +64,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
                 throw new Error('Failed to get access token')
             }
         } catch (error) {
-            console.error('Failed to load access token:', error)
             setIsError(true)
             Alert.alert(
                 'Authentication Error',

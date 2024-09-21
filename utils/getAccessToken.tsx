@@ -10,7 +10,9 @@ const SECRET = Constants?.expoConfig?.extra?.SECRET
 const getAccessToken = async (): Promise<Token | undefined> => {
     if (!UID || !SECRET) {
         Alert.alert(
-            'UID or SECRET is undefined. Check your environment variables.'
+            'UID or SECRET is undefined.',
+            'Check your environment variables.',
+            [{ text: 'OK' }]
         )
         return undefined
     }
@@ -31,14 +33,13 @@ const getAccessToken = async (): Promise<Token | undefined> => {
         )
         return new Token(
             response.data.access_token,
-            response.data.token_type,
             response.data.expires_in,
             response.data.created_at,
-            response.data.scope,
-            response.data.secret_valid_until
         )
     } catch (error) {
-        Alert.alert('Failed to get access token. Check your credentials.')
+        Alert.alert('Failed to get access token.', 'Check your credentials.', [
+            { text: 'OK' },
+        ])
         return undefined
     }
 }
