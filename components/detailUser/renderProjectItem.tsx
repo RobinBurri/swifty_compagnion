@@ -20,16 +20,14 @@ export const renderProjectItem = ({ item }: { item: Project }) => {
             : 'black'
 
     let title = item?.project?.name
-    if (title && title.length > 25) {
-        title = title.substring(0, 25) + '...'
+    if (title && title.length > 33) {
+        title = title.substring(0, 33) + '...'
     }
 
     return (
         <View style={styles.projectCard}>
-            <View style={styles.name}>
-                <Text style={styles.projectTitle}>{title}</Text>
-                <Text style={{ color: statusColor }}>{status}</Text>
-            </View>
+            <Text style={styles.projectTitle}>{title}</Text>
+            <Text  style={[styles.status, {color: statusColor}]}>{status}</Text>
             <View style={styles.result}>
                 {(status === 'finished' || status === 'failed') && (
                     <>
@@ -58,16 +56,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         overflow: 'hidden',
     },
-    name: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
     projectTitle: {
         fontSize: 16,
         fontWeight: 'bold',
         color: GlobalStyles.colors.beige,
+        textAlign: 'center',
+        marginBottom: 10,
     },
-
+    status: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
     result: {
         marginTop: 10,
         flexDirection: 'row',
