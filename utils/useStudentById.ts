@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { useCallback, useContext } from 'react'
-import { Alert } from 'react-native'
 import { API_URL } from '../constants/apiUrl'
 import { AuthContext } from '../store/auth-context'
 import { createStudent } from './createStudent'
@@ -25,12 +24,7 @@ export const useStudentById = () => {
                 const student = createStudent(response.data)
                 return student
             } catch (error) {
-                Alert.alert(
-                    'Error while fetching student',
-                    'Please go back and try again.',
-                    [{ text: 'OK' }]
-                )
-                return null
+               throw new Error('Something went wrong while fetching student data')
             }
         },
         [authCtx]

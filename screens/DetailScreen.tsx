@@ -29,15 +29,13 @@ export default function DetailScreen({ route }: DetailScreenProps) {
 
     useEffect(() => {
         async function loadStudentDate() {
-            const student = await getStudentById(studentId)
-            if (student) {
+            try {
+                const student = await getStudentById(studentId)
                 setStudentData(student)
-            } else {
-                Alert.alert(
-                    'Error while fetching student',
-                    'Please go back and try again.',
-                    [{ text: 'OK' }]
-                )
+            } catch (error: any) {
+                Alert.alert(error.message, 'Please go back and try again.', [
+                    { text: 'OK' },
+                ])
             }
         }
         loadStudentDate()

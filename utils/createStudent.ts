@@ -8,6 +8,8 @@ export const createStudent = (studentData: any): Student => {
         blackholed = true
     }
 
+
+
     if (studentData.cursus_users[1]) {
         studentData.cursus_users[1].skills.forEach((skill: any) => {
             skills.push({
@@ -22,6 +24,9 @@ export const createStudent = (studentData: any): Student => {
         return project.cursus_ids.includes(21)
     })
 
+    const projectWithoutRushes = projects.filter((projects: any) =>  projects.status !== 'parent')
+
+    console.log(projectWithoutRushes)
     if (studentData.cursus_users[1]) {
         level = studentData.cursus_users[1].level
             ? studentData.cursus_users[1].level
@@ -35,7 +40,7 @@ export const createStudent = (studentData: any): Student => {
         studentData.login,
         studentData.image.link,
         level,
-        projects,
+        projectWithoutRushes,
         studentData.correction_point,
         studentData.wallet,
         skills,

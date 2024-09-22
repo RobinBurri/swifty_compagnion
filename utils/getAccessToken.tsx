@@ -1,6 +1,5 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { Alert } from 'react-native'
 import { API_URL } from '../constants/apiUrl'
 import Token from '../models/Token'
 
@@ -9,12 +8,7 @@ const SECRET = Constants?.expoConfig?.extra?.SECRET
 
 const getAccessToken = async (): Promise<Token | undefined> => {
     if (!UID || !SECRET) {
-        Alert.alert(
-            'UID or SECRET is undefined.',
-            'Check your environment variables.',
-            [{ text: 'OK' }]
-        )
-        return undefined
+       throw new Error('UID or SECRET not found, please check your environment variables')
     }
 
     try {
@@ -37,10 +31,7 @@ const getAccessToken = async (): Promise<Token | undefined> => {
             response.data.created_at,
         )
     } catch (error) {
-        Alert.alert('Failed to get access token.', 'Check your credentials.', [
-            { text: 'OK' },
-        ])
-        return undefined
+       throw new Error('Failed to get access token')
     }
 }
 

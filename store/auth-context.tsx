@@ -24,25 +24,20 @@ type AuthContextProviderProps = {
     children: ReactNode
 }
 
-const placeholderToken = new Token(
-  'placeholder',
-  3,
-  Date.now(),
-)
+const placeholderToken = new Token('placeholder', 3, Date.now())
 
 const defaultAuthContext: AuthContextType = {
-  token: placeholderToken,
-  setToken: () => {},
-  getToken: () => placeholderToken,
-  isLoading: false,
-  isError: false,
-  retryAuth: async () => Promise.resolve(),
-};
+    token: placeholderToken,
+    setToken: () => {},
+    getToken: () => placeholderToken,
+    isLoading: false,
+    isError: false,
+    retryAuth: async () => Promise.resolve(),
+}
 
 export const AuthContext = createContext<AuthContextType>(defaultAuthContext)
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-    
     const [authToken, setAuthToken] = useState<Token>(placeholderToken)
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
@@ -63,26 +58,21 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             } else {
                 throw new Error('Failed to get access token')
             }
-        } catch (error) {
+        } catch (error: any) {
             setIsError(true)
-            Alert.alert(
-                'Authentication Error',
-                'Failed to get access token. Please check your credentials and try again.',
-                [{ text: 'OK' }]
-            )
+            Alert.alert('Authentication Error', error.message, [{ text: 'OK' }])
         } finally {
             setIsLoading(false)
         }
     }, [])
 
-    // Load the token for the first time
     useEffect(() => {
         loadToken()
     }, [loadToken])
 
     // Check if the token is expiring soon and refresh it
     useEffect(() => {
-        const checkAndRefreshToken = async () => {
+        const refreshToken = async () => {
             if (authToken && authToken.isTokenExpiringSoon()) {
                 try {
                     const token = await getAccessToken()
@@ -92,7 +82,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
                             console.log('Token refreshed:', token.getToken())
                         }
                     } else {
-                        Alert.alert('Error refreshing token', 'Try again', [{ text: 'OK' }])
+                        Alert.alert('Error refreshing token', 'Try again', [
+                            { text: 'OK' },
+                        ])
                     }
                 } catch (error) {
                     console.error('Error refreshing token:', error)
@@ -109,8 +101,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         const startTokenCheckInterval = () => {
             if (authToken) {
                 intervalRef.current = setInterval(() => {
-                    checkAndRefreshToken()
-                }, 10000)
+                    refreshToken()
+                }, 5000)
             }
         }
 

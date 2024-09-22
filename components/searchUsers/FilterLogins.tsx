@@ -7,7 +7,9 @@ interface FilterLoginsProps {
     filterLoginHandler: (enteredLogin: string) => void
 }
 
-export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) {
+export default function FilterLogins({
+    filterLoginHandler,
+}: FilterLoginsProps) {
     const [enteredLogin, setEnteredLogin] = useState('')
     const [disableBtn, setDisableBtn] = useState(true)
 
@@ -25,12 +27,11 @@ export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) 
             return
         }
         setDisableBtn(true)
-        filterLoginHandler(enteredLogin);
+        filterLoginHandler(enteredLogin)
         setEnteredLogin('')
         setTimeout(() => {
             setDisableBtn(false)
         }, 1000)
-        
     }
 
     return (
@@ -49,6 +50,8 @@ export default function FilterLogins({ filterLoginHandler }: FilterLoginsProps) 
                     cursorColor={GlobalStyles.colors.beige}
                     placeholder="Enter at least 2 characters"
                     placeholderTextColor={GlobalStyles.colors.beige}
+                    keyboardAppearance="default"
+                    keyboardType="default"
                 />
 
                 <CustomBtn

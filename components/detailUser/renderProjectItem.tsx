@@ -5,11 +5,14 @@ import { GlobalStyles } from '../../constants/styles'
 import { Project } from '../../models/Student'
 
 export const renderProjectItem = ({ item }: { item: Project }) => {
-    let status = item?.status
     let result = item?.['validated?']
     const icon = result ? 'checkmark-circle' : 'ban'
+    let status = item?.status
     if (status === 'in_progress' && item?.final_mark === 0) {
         status = 'failed'
+    }
+    if (status === 'in_progress' && result) {
+        status = 'finished'
     }
 
     const statusColor =
@@ -27,7 +30,9 @@ export const renderProjectItem = ({ item }: { item: Project }) => {
     return (
         <View style={styles.projectCard}>
             <Text style={styles.projectTitle}>{title}</Text>
-            <Text  style={[styles.status, {color: statusColor}]}>{status}</Text>
+            <Text style={[styles.status, { color: statusColor }]}>
+                {status}
+            </Text>
             <View style={styles.result}>
                 {(status === 'finished' || status === 'failed') && (
                     <>

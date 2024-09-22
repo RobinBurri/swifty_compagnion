@@ -19,7 +19,6 @@ export const useFilteredStudentList = () => {
                 ])
                 return []
             }
-
             try {
                 const token = authCtx.getToken()
                 let allStudents: BasicStudent[] = []
