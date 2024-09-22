@@ -73,6 +73,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     // Check if the token is expiring soon and refresh it
     useEffect(() => {
         const refreshToken = async () => {
+            if(LOG_TOKEN) {
+                console.log("Token time left: ",authToken.getTimeLeft())
+            }
             if (authToken && authToken.isTokenExpiringSoon()) {
                 try {
                     const token = await getAccessToken()

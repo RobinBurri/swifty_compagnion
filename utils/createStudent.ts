@@ -26,7 +26,6 @@ export const createStudent = (studentData: any): Student => {
 
     const projectWithoutRushes = projects.filter((projects: any) =>  projects.status !== 'parent')
 
-    console.log(projectWithoutRushes)
     if (studentData.cursus_users[1]) {
         level = studentData.cursus_users[1].level
             ? studentData.cursus_users[1].level

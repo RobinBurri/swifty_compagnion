@@ -26,11 +26,16 @@ export default class Token {
         return this.gotTokenTime
     }
 
+    getTimeLeft(): number {
+        const currentTime = Math.floor(Date.now() / 1000)
+        const timeSinceGotToken = currentTime - this.getGotTokenTime()
+        return this.getExpiresIn() - timeSinceGotToken
+    }
+
     isTokenExpiringSoon(): boolean {
         const currentTime = Math.floor(Date.now() / 1000)
         const timeSinceGotToken = currentTime - this.getGotTokenTime()
         const timeLeft = this.getExpiresIn() - timeSinceGotToken
-        console.log('Time left:', timeLeft)
-        return timeLeft <= 60 && timeLeft > 0
+        return timeLeft <= 5;
     }
 }
