@@ -10,7 +10,7 @@ export default {
     userInterfaceStyle: "light",
     splash: {
       image: "./assets/42_logo.png",
-      resizeMode: "contain",
+      resizeMode: "cover",
       backgroundColor: "#226f54"
     },
     ios: {
