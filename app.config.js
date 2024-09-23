@@ -16,7 +16,7 @@ export default {
     ios: {
       buildNumber: "1.0.0",
       supportsTablet: true,
-      bundleIdentifier: "com.42.swifty_companion"
+      bundleIdentifier: "com.42.swiftyCompanion"
     },
     android: {
       versionCode: 1,
