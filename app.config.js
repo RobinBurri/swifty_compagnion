@@ -9,9 +9,9 @@ export default {
     icon: "./assets/42_logo.png",
     userInterfaceStyle: "light",
     splash: {
-      image: "./assets/splash.png",
+      image: "./assets/42_logo.png",
       resizeMode: "contain",
-      backgroundColor: "#ffffff"
+      backgroundColor: "#226f54"
     },
     ios: {
       buildNumber: "1.0.0",
